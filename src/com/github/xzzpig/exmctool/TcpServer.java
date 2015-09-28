@@ -15,7 +15,7 @@ public class TcpServer implements Runnable{
 	@Override
 	public void run() {
 		ServerSocket ss = null;
-		int port = Bukkit.getPluginManager().getPlugin("ExMCTool").getConfig().getInt("LoginExam.port", 10727);
+		int port = Bukkit.getPluginManager().getPlugin("ExMCTool").getConfig().getInt("port", 10727);
 		try {
 			ss = new ServerSocket(port);
 		} catch (IOException e) {
