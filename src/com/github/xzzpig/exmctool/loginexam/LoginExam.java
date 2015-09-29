@@ -18,12 +18,17 @@ public class LoginExam implements Listener{
 	public void onLogin(PlayerLoginEvent event) throws IOException {
 		Player player = event.getPlayer();
 		String ip = player.getAddress().getHostName();
+		if(!TcpServer.getClient().containsKey(ip)){
+			event.disallow(org.bukkit.event.player.PlayerLoginEvent.Result.KICK_OTHER, "[ExMCTool]验证失败\nReason:"+LoginError.getError(1));
+			return;
+			}
 		Socket s = TcpServer.getClient(ip);
 		if(s.isClosed()){
 			System.out.println(TString.Prefix("ExMCTool", 4)+player.getName()+"验证失败");
 			event.disallow(org.bukkit.event.player.PlayerLoginEvent.Result.KICK_OTHER, "[ExMCTool]验证失败\nReason:"+LoginError.getError(1));
 			return;	
 		}
+		TcpServer.login.put(s, true);
 		s.getOutputStream().write("login player".getBytes());
 		byte[] buf = new byte[1024];
 		int length = s.getInputStream().read(buf);
@@ -31,10 +36,11 @@ public class LoginExam implements Listener{
 		if(!data.equalsIgnoreCase(player.getName())){
 			System.out.println(TString.Prefix("ExMCTool", 4)+player.getName()+"验证失败");
 			event.disallow(org.bukkit.event.player.PlayerLoginEvent.Result.KICK_OTHER, "[ExMCTool]验证失败\nReason:"+LoginError.getError(2));
+			s.getOutputStream().write("login deny".getBytes());
 			s.close();
+			TcpServer.login.put(s, false);
 			return;
 		}
-		
 		s.getOutputStream().write("login key".getBytes());
 		buf = new byte[1024];
 		length = s.getInputStream().read(buf);
@@ -43,13 +49,15 @@ public class LoginExam implements Listener{
 		if(!data.equalsIgnoreCase(key)){
 			System.out.println(TString.Prefix("ExMCTool", 4)+player.getName()+"验证失败");
 			event.disallow(org.bukkit.event.player.PlayerLoginEvent.Result.KICK_OTHER, "[ExMCTool]验证失败\nReason:"+LoginError.getError(2));
+			s.getOutputStream().write("login deny".getBytes());
 			s.close();
+			TcpServer.login.put(s, false);
 			return;
 		}
-		
-		s.close();
-		
+		System.out.println(TString.Prefix("ExMCTool", 4)+player+"验证成功");
+		s.getOutputStream().write("login pass".getBytes());
 		event.allow();
+		TcpServer.login.put(s, false);
 	}
 
 	public void onQuit(PlayerQuitEvent event){

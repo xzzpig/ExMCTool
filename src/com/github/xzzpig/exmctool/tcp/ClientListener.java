@@ -13,6 +13,7 @@ public class ClientListener implements Runnable{
 	
 	private ClientListener(Socket s){
 		this.s = s;
+		System.out.println("[ExMCTool]"+s.getInetAddress().getHostName()+"ÒÑ¼ÓÈë¼àÌı");
 	}
 	
 	public static Thread getThread(Socket s) {
@@ -45,16 +46,11 @@ public class ClientListener implements Runnable{
 				TcpServer.getClient().remove(this.s.getInetAddress().getHostName());
 				return;
 			}
+			while(TcpServer.login.get(s));
 			byte[] buf = new byte[1024];
 			int length = s.getInputStream().read(buf);
 			String data = new String(buf).substring(0, length);
-			new Thread(new ClientSolver(s,data));
-			
-			try {
-				Thread.sleep(10000);
-			} catch (InterruptedException e) {
-				System.out.println("[ExMCTool]¿Í»§¶Ë¼àÌıÀäÈ´Ê§°Ü");
-			}
+			new Thread(new ClientSolver(s,data)).start();
 		}
 	}
 }

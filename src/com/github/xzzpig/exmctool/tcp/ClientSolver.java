@@ -13,6 +13,7 @@ public class ClientSolver implements Runnable{
 	
 	@Override
 	public void run() {
+		System.out.println("[ExMCTool]"+s.getInetAddress().getHostName()+":"+data);
 		Solve();
 	}
 

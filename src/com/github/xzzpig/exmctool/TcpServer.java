@@ -7,9 +7,12 @@ import java.util.HashMap;
 
 import org.bukkit.Bukkit;
 
+import com.github.xzzpig.exmctool.tcp.ClientListener;
+
 public class TcpServer implements Runnable{
 	
 	private static HashMap<String, Socket> Client = new HashMap<String, Socket>();
+	public static HashMap<Socket, Boolean> login = new HashMap<Socket, Boolean>();
 	
 	@SuppressWarnings("resource")
 	@Override
@@ -22,11 +25,13 @@ public class TcpServer implements Runnable{
 			System.out.println("[ExMCTool]Wrong:端口已占用，TCP所用失败");
 			return;
 		}
-		
+		System.out.println("[ExMCTool]TCP服务端已启动");
 		while(true){
 			Socket s = null;
 			try {s = ss.accept();} catch (IOException e) {}
 			Client.put(s.getInetAddress().getHostName(), s);
+			System.out.println("[ExMCTool]客户端"+s.getInetAddress().getHostName()+"已连入");
+			ClientListener.NewListener(s);
 		}
 	}
 
