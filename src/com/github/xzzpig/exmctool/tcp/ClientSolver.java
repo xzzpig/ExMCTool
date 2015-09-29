@@ -11,7 +11,6 @@ public class ClientSolver implements Runnable{
 		this.data = data;
 	}
 	
-	@Override
 	public void run() {
 		System.out.println("[ExMCTool]"+s.getInetAddress().getHostName()+":"+data);
 		Solve();

@@ -15,7 +15,6 @@ public class TcpServer implements Runnable{
 	public static HashMap<Socket, Boolean> login = new HashMap<Socket, Boolean>();
 	
 	@SuppressWarnings("resource")
-	@Override
 	public void run() {
 		ServerSocket ss = null;
 		int port = Bukkit.getPluginManager().getPlugin("ExMCTool").getConfig().getInt("port", 10727);
