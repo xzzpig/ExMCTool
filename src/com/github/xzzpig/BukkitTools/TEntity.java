@@ -25,7 +25,6 @@ public class TEntity {
 		return players;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void broadMessage(String message){
 		Player[] players = Bukkit.getServer().getOnlinePlayers();
 		for(Player player:players){
@@ -33,7 +32,6 @@ public class TEntity {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static void broadMessage(String message,Location loc,int distance){
 		Player[] players = Bukkit.getServer().getOnlinePlayers();
 		for(Player player:players){
@@ -43,7 +41,6 @@ public class TEntity {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	public static Player toPlayer(String name){
 		return Bukkit.getPlayer(name);
 	}
