@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.HashMap;
 
-import com.github.xzzpig.exmctool.TcpServer;
+import com.github.xzzpig.exmctool.loginexam.LoginPlayer;
 
 public class ClientListener implements Runnable{
 	private static HashMap<Socket, Thread> thread = new HashMap<Socket, Thread>();
@@ -20,8 +20,8 @@ public class ClientListener implements Runnable{
 		return thread.get(s);
 	}
 	
-	public static Thread getTread(String ip){
-		return thread.get(TcpServer.getClient(ip));
+	public static Thread getTread(LoginPlayer lp){
+		return thread.get(lp.getSocket());
 	}
 
 	public static void NewListener(Socket s){
@@ -42,10 +42,9 @@ public class ClientListener implements Runnable{
 		while(true){
 			if(this.s.isClosed()){
 				thread.remove(this.s);
-				TcpServer.getClient().remove(this.s.getInetAddress().getHostName());
+				LoginPlayer.Get(s).Destory();
 				return;
 			}
-			while(TcpServer.login.get(s));
 			byte[] buf = new byte[1024];
 			int length = s.getInputStream().read(buf);
 			String data = new String(buf).substring(0, length);
