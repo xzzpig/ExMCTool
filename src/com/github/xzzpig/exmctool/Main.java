@@ -10,6 +10,7 @@ public class Main extends JavaPlugin{
 	getLogger().info(getName()+"插件已被加载");
 	saveDefaultConfig();
 	getServer().getPluginManager().registerEvents(new LoginExam(), this);
+	Vars.key = this.getConfig().getString("LoginExam.key", "madebyhz");
 	new Thread(new TcpServer()).start();
 	}
 	
