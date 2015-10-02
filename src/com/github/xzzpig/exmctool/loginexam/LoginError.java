@@ -10,6 +10,9 @@ public class LoginError {
 		case 2:
 			error = "ÑéÖ¤´íÎó";
 			break;
+		case 3:
+			error = "ÃÜÂë´íÎó";
+			break;
 		}
 		
 		return error;

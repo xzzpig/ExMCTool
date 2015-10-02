@@ -12,12 +12,15 @@ public class LoginPlayer {
 	private static HashMap<Socket, LoginPlayer> LPlayer2 = new HashMap<Socket, LoginPlayer>();
 	private HashMap<String, Boolean> pass = new HashMap<String, Boolean>();
 	public boolean examfinished = false;
-	public String name = "";
+	public String name = "",password = "";
 	private Socket s;
 	
 	public LoginPlayer(String name,Socket s) {
 		this.name = name;
 		this.s = s;
+		if(Vars.passwords.containsKey(name)){
+			this.password = Vars.passwords.get(name);
+		}
 		LPlayer.put(name, this);
 		LPlayer2.put(s, this);
 	}
@@ -57,6 +60,9 @@ public class LoginPlayer {
 		this.s = s;
 		LPlayer.put(player, this);
 		LPlayer2.put(s, this);
+		if(Vars.passwords.containsKey(name)){
+			this.password = Vars.passwords.get(name);
+		}
 	}
 	
 	public static LoginPlayer Get(String player){
@@ -72,11 +78,11 @@ public class LoginPlayer {
 	
 	public boolean IsPassed(){
 		while(!this.examfinished);
-		return (this.getPass("player")&&this.getPass("key"));
+		return (this.getPass("player")&&this.getPass("key")&&this.getPass("password"));
 	}
 	public boolean IsPassed(String key){
-		while(!this.pass.containsKey(key));
-		return (this.pass.get(key));
+		while(!(this.examfinished||this.pass.containsKey(key)));
+		return (this.getPass(key));
 	}
 	
 	public static boolean IsExist(String name){
@@ -118,6 +124,14 @@ public class LoginPlayer {
 		case "key" :
 			String keys = Vars.key;
 			if(value.equals(MD5.GetMD5Code(keys))){
+				lp.setPass(key, true);
+			}
+			else
+				lp.examfinished = true;
+			break;
+		case "password" :
+			String password = lp.password;
+			if(value.equals(password)){
 				lp.setPass(key, true);
 				lp.examfinished = true;
 			}

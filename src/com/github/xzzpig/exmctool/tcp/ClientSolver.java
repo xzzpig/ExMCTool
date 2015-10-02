@@ -1,7 +1,11 @@
 package com.github.xzzpig.exmctool.tcp;
 
+import java.io.IOException;
 import java.net.Socket;
 
+import com.github.xzzpig.BukkitTools.MD5;
+import com.github.xzzpig.exmctool.Main;
+import com.github.xzzpig.exmctool.Vars;
 import com.github.xzzpig.exmctool.loginexam.LoginPlayer;
 
 public class ClientSolver implements Runnable{
@@ -20,7 +24,7 @@ public class ClientSolver implements Runnable{
 		System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+":"+data2);
 		Solve();
 	}
-
+	
 	private void Solve() {
 		switch(GetArry(0)){
 		case "name" :
@@ -29,6 +33,38 @@ public class ClientSolver implements Runnable{
 			break;
 		case "login" :
 			LoginPlayer.SolveData(LoginPlayer.Get(s), GetArry(1),GetArry(2));
+			break;
+		case "changepassword" :
+			if(!GetArry(1).equalsIgnoreCase(MD5.GetMD5Code(Vars.adminkey))){
+				try {
+					s.getOutputStream().write("changepassword result fail adminkey".getBytes());
+				} catch (IOException e) {e.printStackTrace();}
+				System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+"改密失败(管理密码错误)");
+			}
+			else if(!Vars.passwords.containsKey(LoginPlayer.Get(s).getName())){
+				Vars.passwords.put(LoginPlayer.Get(s).getName(),GetArry(3));
+				try {
+					s.getOutputStream().write("changepassword result success".getBytes());
+				} catch (IOException e) {e.printStackTrace();}
+				System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+"改密成功");
+			}
+			else if(Vars.passwords.get(LoginPlayer.Get(s).getName()).equalsIgnoreCase("null")||
+					Vars.passwords.get(LoginPlayer.Get(s).getName()).equalsIgnoreCase(GetArry(2))){
+				Vars.passwords.put(LoginPlayer.Get(s).getName(), GetArry(3));
+				try {
+					s.getOutputStream().write("changepassword result success".getBytes());
+				} catch (IOException e) {e.printStackTrace();}
+				System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+"改密成功");
+			}
+			else{
+				try {
+					s.getOutputStream().write("changepassword result fail password".getBytes());
+					System.out.println("here");//TODO
+				} catch (IOException e) {e.printStackTrace();}
+				System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+"改密失败(原密码错误)");
+			}
+			Main.SaveConfigs();
+			LoginPlayer.Get(s).Rebulid(LoginPlayer.Get(s).getName(),s);
 			break;
 		}
 	}

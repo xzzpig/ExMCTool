@@ -1,4 +1,6 @@
 # 该插件由 幻猪(Mg_P) 制作
 port: 10727
+Admin: 
+  key: adminkey0123
 LoginExam:
   key: madebyhz

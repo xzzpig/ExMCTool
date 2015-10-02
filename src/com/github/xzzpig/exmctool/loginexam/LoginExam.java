@@ -32,6 +32,14 @@ public class LoginExam implements Listener{
 			lp.Destory();
 			return;
 		}
+		lp.SendData("login password");
+		if(!LoginPlayer.Get(player).IsPassed("password")){
+			event.disallow(null, "[ExMCTool]验证失败\nReason:"+LoginError.getError(3));
+			System.out.println("[ExMCTool]"+player+"验证失败");
+			lp.SendData("login deny");
+			lp.Destory();
+			return;
+		}
 		if(LoginPlayer.Get(player).IsPassed()){
 			event.allow();
 			lp.SendData("login pass");
