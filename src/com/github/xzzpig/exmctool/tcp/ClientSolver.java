@@ -59,7 +59,6 @@ public class ClientSolver implements Runnable{
 			else{
 				try {
 					s.getOutputStream().write("changepassword result fail password".getBytes());
-					System.out.println("here");//TODO
 				} catch (IOException e) {e.printStackTrace();}
 				System.out.println("[ExMCTool]"+LoginPlayer.Get(s).getName()+"¸ÄÃÜÊ§°Ü(Ô­ÃÜÂë´íÎó)");
 			}
