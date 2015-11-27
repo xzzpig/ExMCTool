@@ -5,25 +5,27 @@ import java.util.List;
 import org.bukkit.entity.Player;
 
 public class TString {
+	public static final String s = "Â§";
+	
 	private TString(){}
 	public static String Prefix(String prefix){
-		return "¡ì6["+prefix+"]¡ìf";
+		return "Â§6["+prefix+"]Â§f";
 	}
 	
 	public static String Prefix(String prefix,int colorid){
-		return "¡ì6["+prefix+"]"+Color(colorid);
+		return "Â§6["+prefix+"]"+Color(colorid);
 	}
 	
 	public static String Prefix(String prefix,String colorid){
-		return "¡ì6["+prefix+"]"+Color(colorid);
+		return "Â§6["+prefix+"]"+Color(colorid);
 	}
 	
 	public static String Color(int colorid){
-		return "¡ì"+colorid;
+		return "Â§"+colorid;
 	}
 	
 	public static String Color(String colorid){
-		return "¡ì"+colorid;
+		return "Â§"+colorid;
 	}
 	
 	public static void Print(String message){
@@ -55,5 +57,26 @@ public class TString {
 	
 	public static void Print(List<String> messages,Player player){
 		Print(messages,player.getName());
+	}
+	
+	public static String sub(String s,String pre,String suf)
+	{
+		int f = s.indexOf(pre);
+		int e = s.indexOf(suf);
+		return s.substring(f+pre.length(),e);
+	}
+	
+	public static String toUnicodeString(String s) {
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < s.length(); i++) {
+			char c = s.charAt(i);
+			if (c >= 0 && c <= 255) {
+				sb.append(c);
+			}
+			else {
+				sb.append("\\u"+Integer.toHexString(c));
+			}
+		}
+		return sb.toString();
 	}
 }

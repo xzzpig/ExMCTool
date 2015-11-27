@@ -2,22 +2,17 @@ package com.github.xzzpig.exmctool;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.xzzpig.exmctool.loginexam.LoginExam;
-
 public class Main extends JavaPlugin{
 	@Override
 	public void onEnable() {
-	getLogger().info(getName()+"²å¼şÒÑ±»¼ÓÔØ");
+	getLogger().info(getName()+"å·²åŠ è½½");
 	saveDefaultConfig();
-	getServer().getPluginManager().registerEvents(new LoginExam(), this);
-	Vars.key = this.getConfig().getString("LoginExam.key", "madebyhz");
-	new Thread(new TcpServer()).start();
-	}
+	//getServer().getPluginManager().registerEvents(new LoginExam(), this);
 	
-	//²å¼şÍ£ÓÃº¯Êı
+	}
 	@Override
 	public void onDisable() {
-	getLogger().info(getName()+"²å¼şÒÑ±»Í£ÓÃ ");
+	getLogger().info(getName()+"å·²åœè½½");
 	}
 
 }

@@ -5,9 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import org.bukkit.Bukkit;
 
-import com.github.xzzpig.exmctool.loginexam.LoginPlayer;
-import com.github.xzzpig.exmctool.tcp.ClientListener;
-
 public class TcpServer implements Runnable{	
 	@SuppressWarnings("resource")
 	public void run() {
@@ -16,19 +13,15 @@ public class TcpServer implements Runnable{
 		try {
 			ss = new ServerSocket(port);
 		} catch (IOException e) {
-			System.out.println("[ExMCTool]Wrong:¶Ë¿Ú("+port+")ÒÑÕ¼ÓÃ£¬TCPËùÓÃÊ§°Ü");
+			System.out.println("[ExMCTool]Wrong:ç«¯å£("+port+")å·²å ç”¨ï¼ŒTCPæ‰€ç”¨å¤±è´¥");
 			return;
 		}
-		System.out.println("[ExMCTool]TCP·şÎñ¶Ë("+port+")ÒÑÆô¶¯");
+		System.out.println("[ExMCTool]TCPæœåŠ¡ç«¯("+port+")å·²å¯åŠ¨");
 		while(true){
 			Socket s = null;
 			try {s = ss.accept();} catch (IOException e) {}
-			LoginPlayer.New(s.getInetAddress().getHostName(), s);
-			try {
-				s.getOutputStream().write("player".getBytes());
-			} catch (IOException e) {}
-			ClientListener.NewListener(s);
-			System.out.println("[ExMCTool]¿Í»§¶Ë"+s.getInetAddress().getHostName()+"ÒÑÁ¬Èë");
+			new Cilent(s);
+			System.out.println("[ExMCTool]å®¢æˆ·ç«¯"+s.getInetAddress().getHostName()+"å·²è¿å…¥");
 		}
 	}
 }
