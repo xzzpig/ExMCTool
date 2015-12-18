@@ -14,7 +14,7 @@ public class Cilent
 	protected Socket s;
 	protected byte[] data;
 	protected CilentType type;
-	
+	private boolean read = true;
 	
 	public Cilent(Socket s){
 		cilents.add(this);
@@ -58,8 +58,6 @@ public class Cilent
 		while(this.type == null){}
 	}
 	
-	
-	
 	public CilentType getType() {
 		return type;
 	}
@@ -83,13 +81,11 @@ public class Cilent
 		new Thread(new Runnable(){
 				@Override
 				public void run(){
-					while(true){
+					while(read){
 						if(s.isClosed()){
 							cilents.remove(valueOf(s));
 							return;
 						}
-						if(!cilents.contains(this))
-							return;
 						byte[] buf = new byte[1024*1024];
 						int length = 0;
 						try{
@@ -102,5 +98,9 @@ public class Cilent
 				}
 			}).start();
 	}
-
+	
+	public void remove(){
+		cilents.remove(this);
+		read = false;
+	}
 }

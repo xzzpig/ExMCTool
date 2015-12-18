@@ -9,7 +9,7 @@ public class Cilent_Player extends Cilent
 	
 	public Cilent_Player(Cilent cilent){
 		super(cilent.s);
-		cilents.remove(cilent);
+		cilent.remove();
 		askForName();
 	}
 	
