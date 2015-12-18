@@ -6,7 +6,7 @@ import java.net.Socket;
 import org.bukkit.Bukkit;
 
 public class TcpServer implements Runnable{	
-	@SuppressWarnings("resource")
+	public static ServerSocket server;
 	public void run() {
 		ServerSocket ss = null;
 		int port = Bukkit.getPluginManager().getPlugin("ExMCTool").getConfig().getInt("port", 10727);
@@ -16,6 +16,7 @@ public class TcpServer implements Runnable{
 			System.out.println("[ExMCTool]Wrong:端口("+port+")已占用，TCP所用失败");
 			return;
 		}
+		server = ss;
 		System.out.println("[ExMCTool]TCP服务端("+port+")已启动");
 		while(true){
 			Socket s = null;
