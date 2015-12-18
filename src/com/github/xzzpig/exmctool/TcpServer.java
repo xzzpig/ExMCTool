@@ -21,8 +21,8 @@ public class TcpServer implements Runnable{
 		while(true){
 			Socket s = null;
 			try {s = ss.accept();} catch (IOException e) {}
-			new Cilent(s);
 			System.out.println("[ExMCTool]客户端"+s.getInetAddress().getHostName()+"已连入");
-		}
+			new Cilent(s);
+			}
 	}
 }

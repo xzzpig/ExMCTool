@@ -9,20 +9,24 @@ import com.github.xzzpig.exmctool.event.*;
 
 public class Cilent
 {
-	private static List<Cilent> cilents = new ArrayList<Cilent>();
+	protected static List<Cilent> cilents = new ArrayList<Cilent>();
 	
-	private Socket s;
-	private byte[] data;
-	private CilentType type;
-	private String name;
+	protected Socket s;
+	protected byte[] data;
+	protected CilentType type;
+	
 	
 	public Cilent(Socket s){
 		cilents.add(this);
 		this.s = s;
 		readdata();
+		if(this instanceof Cilent_Player){
+			type = CilentType.Player;
+			return;
+		}
 		askForType();
 		if(type == CilentType.Player)
-			askForName();
+			new Cilent_Player(this);
 	}
 	
 	public static Cilent valueOf(Socket s){
@@ -53,22 +57,8 @@ public class Cilent
 		}).start();
 		while(this.type == null){}
 	}
-	private void askForName(){
-		try{
-			s.getOutputStream().write("player".getBytes());
-		}
-		catch(IOException e){
-			System.out.println("[ExMCTool]获取玩家ID请求发送失败");
-		}
-	}
 	
-	public boolean setName(String name){
-		this.name = name;
-		return true;
-	}
-	public String getName(){
-		return name;
-	}
+	
 	
 	public CilentType getType() {
 		return type;
@@ -89,7 +79,7 @@ public class Cilent
 		return s;
 	}
 	
-	private void readdata(){
+	protected void readdata(){
 		new Thread(new Runnable(){
 				@Override
 				public void run(){
@@ -98,6 +88,8 @@ public class Cilent
 							cilents.remove(valueOf(s));
 							return;
 						}
+						if(!cilents.contains(this))
+							return;
 						byte[] buf = new byte[1024*1024];
 						int length = 0;
 						try{
