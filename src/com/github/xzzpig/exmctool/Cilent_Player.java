@@ -84,6 +84,8 @@ public class Cilent_Player extends Cilent
 		while(t.isAlive()&&(uncheckpass==null||uncheckkey==null||uncheckplayer==null)){}
 		if(uncheckpass==null||uncheckkey==null||uncheckplayer==null)
 			return LoginError.NoData;
+		if(password.equalsIgnoreCase("null"))
+			uncheckpass = "null";
 		if(!password.equalsIgnoreCase(uncheckpass))
 			return LoginError.DifferentPass;
 		if(!MD5.GetMD5Code(Vars.loginkey).equalsIgnoreCase(uncheckkey))

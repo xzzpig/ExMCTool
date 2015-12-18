@@ -15,7 +15,8 @@ public class Main extends JavaPlugin
 		Vars.TcpThread = new Thread(new TcpServer());
 		Vars.TcpThread.start();
 		getServer().getPluginManager().registerEvents(new AlwaysDataListener(),this);
-		getServer().getPluginManager().registerEvents(new LoginListener(),this);
+		if(Vars.enable_loginexam)
+			getServer().getPluginManager().registerEvents(new LoginListener(),this);
 	}
 
 	@SuppressWarnings("deprecation")

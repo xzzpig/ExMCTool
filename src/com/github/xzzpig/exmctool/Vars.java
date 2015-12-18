@@ -8,4 +8,5 @@ public class Vars
 	public static FileConfiguration config;
 	public static String adminkey = TConfig.getConfigFile("ExMCTool","config.yml").getString("adminkey","madebyhz");
 	public static String loginkey = TConfig.getConfigFile("ExMCTool","config.yml").getString("loginkey","madebyhz");
+	public static boolean enable_loginexam = TConfig.getConfigFile("ExMCTool","config.yml").getBoolean("enable.loginexam",true);
 }
