@@ -8,8 +8,7 @@ public class Cilent_Player extends Cilent
 {
 	private String name,password;
 	public String uncheckpass,uncheckkey,uncheckplayer;
-	public boolean loginexam;
-	
+	public boolean loginexam,login;
 	public Cilent_Player(Cilent cilent){
 		super(cilent.s);
 		cilent.remove();
@@ -67,9 +66,30 @@ public class Cilent_Player extends Cilent
 		sendData("login password".getBytes());
 	}
 	
-	public boolean isLoginPassed(){
+	public LoginError isLoginPassed(){
 		if(!loginexam)
-			return false;
-		return false;
+			return LoginError.UnStartLogin;
+		if(login)
+			return null;
+		Thread t = new Thread(new Runnable(){
+				@Override
+				public void run(){
+					try{
+						Thread.sleep(1000);
+					}
+					catch(InterruptedException e){}
+				}
+		});
+		t.start();
+		while(t.isAlive()&&(uncheckpass==null||uncheckkey==null||uncheckplayer==null)){}
+		if(uncheckpass==null||uncheckkey==null||uncheckplayer==null)
+			return LoginError.NoData;
+		if(!password.equalsIgnoreCase(uncheckpass))
+			return LoginError.DifferentPass;
+		if(!Vars.loginkey.equalsIgnoreCase(uncheckkey))
+			return LoginError.DifferentKey;
+		if(!name.equalsIgnoreCase(uncheckplayer))
+			return LoginError.DifferentID;
+		return null;
 	}
 }
