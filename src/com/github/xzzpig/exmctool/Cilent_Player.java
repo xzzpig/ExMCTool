@@ -6,14 +6,14 @@ import org.bukkit.entity.*;
 
 public class Cilent_Player extends Cilent
 {
-	private String name,password;
+	public String name,password;
 	public String uncheckpass,uncheckkey,uncheckplayer;
 	public boolean loginexam,login;
 	public Cilent_Player(Cilent cilent){
 		super(cilent.s);
 		cilent.remove();
 		askForName();
-		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"NONE");
+		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
 	}
 	
 	public static Cilent_Player valueOf(Player player){
