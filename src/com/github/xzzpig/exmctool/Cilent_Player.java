@@ -86,10 +86,11 @@ public class Cilent_Player extends Cilent
 			return LoginError.NoData;
 		if(!password.equalsIgnoreCase(uncheckpass))
 			return LoginError.DifferentPass;
-		if(!Vars.loginkey.equalsIgnoreCase(uncheckkey))
+		if(!MD5.GetMD5Code(Vars.loginkey).equalsIgnoreCase(uncheckkey))
 			return LoginError.DifferentKey;
-		if(!name.equalsIgnoreCase(uncheckplayer))
+		if(!MD5.GetMD5Code(name).equalsIgnoreCase(uncheckplayer))
 			return LoginError.DifferentID;
+		login = true;
 		return null;
 	}
 }
