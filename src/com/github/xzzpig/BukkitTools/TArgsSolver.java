@@ -30,4 +30,7 @@ public class TArgsSolver
 	public String get(String key){
 		return data.getString(key);
 	}
+	public String[] keys(){
+		return this.data.getStrings().keySet().toArray(new String[0]);
+	}
 }

@@ -1,5 +1,6 @@
 package com.github.xzzpig.BukkitTools;
 import java.util.*;
+import java.util.Map.Entry;
 
 public class TData
 {
@@ -60,5 +61,34 @@ public class TData
 	}
 	public HashMap<String,Object> getaObjects(){
 		return this.obs;
+	}
+	@Override
+	public String toString() {
+		List<String> ss = new ArrayList<String>();
+		Iterator<Entry<String, String>> is = strs.entrySet().iterator();
+		while (is.hasNext()){
+			Entry<String, String> ise = is.next();
+			ss.add(ise.getKey()+"\t"+ise.getValue());
+		}
+		Iterator<Entry<String, Integer>> ii = ints.entrySet().iterator();
+		while (is.hasNext()){
+			Entry<String, Integer> iie = ii.next();
+			ss.add(iie.getKey()+"\t"+iie.getValue());
+		}
+		Iterator<Entry<String, Boolean>> ib = boos.entrySet().iterator();
+		while (ib.hasNext()){
+			Entry<String, Boolean> ibe = ib.next();
+			ss.add(ibe.getKey()+"\t"+ibe.getValue());
+		}
+		Iterator<Entry<String, Object>> io = obs.entrySet().iterator();
+		while (io.hasNext()){
+			Entry<String, Object> ioe = io.next();
+			ss.add(ioe.getKey()+"\t"+ioe.getValue());
+		}
+		StringBuffer sb = new StringBuffer();
+		for(String s:ss){
+			sb.append(s+"\n");
+		}
+		return sb.toString();
 	}
 }

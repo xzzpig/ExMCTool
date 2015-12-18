@@ -1,8 +1,8 @@
 package com.github.xzzpig.BukkitTools;
 
-import java.util.List;
-
-import org.bukkit.entity.Player;
+import java.io.*;
+import java.util.*;
+import org.bukkit.entity.*;
 
 public class TString {
 	public static final String s = "§";
@@ -62,7 +62,7 @@ public class TString {
 	public static String sub(String s,String pre,String suf)
 	{
 		int f = s.indexOf(pre);
-		int e = s.indexOf(suf);
+		int e = s.indexOf(suf,f);
 		return s.substring(f+pre.length(),e);
 	}
 	
@@ -79,4 +79,25 @@ public class TString {
 		}
 		return sb.toString();
 	}
+	public static String getRandomCH(int len){
+        String ret="";
+		for(int i=0;i<len;i++){
+			String str = null;
+			int hightPos, lowPos; // 定义高低位
+			Random random = new Random();
+			hightPos = (176+Math.abs(random.nextInt(39))); //获取高位值
+			lowPos = (161+Math.abs(random.nextInt(93))); //获取低位值
+			byte[] b = new byte[2];
+			b[0] = (new Integer(hightPos).byteValue());
+			b[1] = (new Integer(lowPos).byteValue());
+			try{
+				str = new String(b,"GBk"); //转成中文
+			}
+			catch(UnsupportedEncodingException ex){
+				ex.printStackTrace();
+			}
+			ret += str;
+		}
+		return ret;
+    }
 }

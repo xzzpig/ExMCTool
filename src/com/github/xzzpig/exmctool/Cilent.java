@@ -77,6 +77,15 @@ public class Cilent
 		return s;
 	}
 	
+	public void sendData(byte[] data){
+		try{
+			s.getOutputStream().write(data);
+		}
+		catch(Exception e){
+			System.out.println("[ExMCTool]Wrong!发送数据到"+s.getRemoteSocketAddress()+"失败");
+		}
+	}
+	
 	protected void readdata(){
 		new Thread(new Runnable(){
 				@Override

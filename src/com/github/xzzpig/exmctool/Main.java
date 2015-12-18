@@ -9,10 +9,10 @@ public class Main extends JavaPlugin{
 	public void onEnable() {
 	getLogger().info(getName()+"已加载");
 	saveDefaultConfig();
+	Vars.config = getConfig();
 	Vars.TcpThread = new Thread(new TcpServer());
 	Vars.TcpThread.start();
 	getServer().getPluginManager().registerEvents(new AlwaysDataListener(), this);
-	
 	}
 	
 	@SuppressWarnings("deprecation")

@@ -48,8 +48,8 @@ public class TEntity {
 		return Bukkit.getPlayer(name);
 	}
 	
-	public static LivingEntity getTarget(Player player,int range) {
-		List<Entity> nearbyE = player.getNearbyEntities(range, range, range);
+	public static LivingEntity getTarget(LivingEntity entity,int range) {
+		List<Entity> nearbyE = entity.getNearbyEntities(range, range, range);
 		ArrayList<LivingEntity> livingE = new ArrayList<LivingEntity>();
 		for (Entity e : nearbyE) {
 			if (e instanceof LivingEntity){
@@ -57,7 +57,7 @@ public class TEntity {
 			}
 		}
 		LivingEntity target = null;
-		BlockIterator bItr = new BlockIterator(player, range);
+		BlockIterator bItr = new BlockIterator(entity, range);
 		Block block;Location loc;int bx, by, bz;
 		double ex, ey, ez;
 		while (bItr.hasNext()) {
@@ -77,7 +77,7 @@ public class TEntity {
 			}
 		}
 		if(target == null)
-			target = player;
+			target = entity;
 		return target;
 	}
 	

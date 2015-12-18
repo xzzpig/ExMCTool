@@ -96,6 +96,8 @@ public class TPremission
 	}
 	public boolean hasChild(TPremission premission)
 	{
+		if(premission == this)
+			return true;
 		List<TPremission> childlist = this.getAllChildren();
 		if (childlist == null)
 			return false;
