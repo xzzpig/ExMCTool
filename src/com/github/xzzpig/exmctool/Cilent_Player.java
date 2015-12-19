@@ -1,6 +1,8 @@
 package com.github.xzzpig.exmctool;
 import com.github.xzzpig.BukkitTools.*;
+
 import java.io.*;
+
 import org.bukkit.*;
 import org.bukkit.entity.*;
 
@@ -52,6 +54,7 @@ public class Cilent_Player extends Cilent
 		return name;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public Player getPlayer(){
 		return Bukkit.getPlayer(name);
 	}
