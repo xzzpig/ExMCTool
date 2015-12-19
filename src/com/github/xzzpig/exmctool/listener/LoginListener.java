@@ -1,22 +1,28 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.exmctool.event.*;
+
 import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
+
 import com.github.xzzpig.exmctool.*;
 
 public class LoginListener implements Listener
 {
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent event){
 		Cilent_Player cilent = Cilent_Player.valueOf(event.getName());
 		if(cilent == null){
-			event.disallow(event.getLoginResult().KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoCilent);
+			event.getLoginResult();
+			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoCilent);
 			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.NoCilent);
 			return;
 		}
 		if(!cilent.getSocket().getInetAddress().getHostAddress().equalsIgnoreCase(event.getAddress().getHostAddress())){
-			event.disallow(event.getLoginResult().KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.DifferentAddress);
+			event.getLoginResult();
+			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.DifferentAddress);
 			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.DifferentAddress);
 			cilent.sendData("login deny".getBytes());
 			return;
@@ -26,12 +32,14 @@ public class LoginListener implements Listener
 		if(error == null)
 			event.allow();
 		else{
-			event.disallow(event.getLoginResult().KICK_OTHER,"[ExMCTool]验证失败\nReason:"+error);
+			event.getLoginResult();
+			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+error);
 			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+error);
 			cilent.sendData("login pass".getBytes());
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onLoginData(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
