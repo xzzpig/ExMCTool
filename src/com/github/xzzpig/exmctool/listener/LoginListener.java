@@ -8,11 +8,6 @@ import com.github.xzzpig.exmctool.*;
 public class LoginListener implements Listener
 {
 	@EventHandler
-	public void onLogin(PlayerLoginEvent event){
-		Bukkit.getPluginManager().callEvent(new AsyncPlayerPreLoginEvent(event.getPlayer().getName(),event.getAddress()));
-	}
-	
-	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent event){
 		Cilent_Player cilent = Cilent_Player.valueOf(event.getName());
 		if(cilent == null){
