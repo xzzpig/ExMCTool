@@ -4,3 +4,4 @@ adminkey: madebyhz
 loginkey: madebyhz
 enable:
   loginexam: true
+  chat: true

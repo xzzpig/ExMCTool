@@ -17,6 +17,9 @@ public class Main extends JavaPlugin
 		getServer().getPluginManager().registerEvents(new AlwaysDataListener(),this);
 		if(Vars.enable_loginexam)
 			getServer().getPluginManager().registerEvents(new LoginListener(),this);
+		if(Vars.enable_chat)
+			getServer().getPluginManager().registerEvents(new ChatListener(),this);
+			
 	}
 
 	@SuppressWarnings("deprecation")

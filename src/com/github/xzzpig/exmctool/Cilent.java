@@ -9,7 +9,7 @@ import com.github.xzzpig.exmctool.event.*;
 
 public class Cilent
 {
-	protected static List<Cilent> cilents = new ArrayList<Cilent>();
+	public static List<Cilent> cilents = new ArrayList<Cilent>();
 	
 	protected Socket s;
 	protected byte[] data;
