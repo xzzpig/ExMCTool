@@ -26,9 +26,9 @@ public class AlwaysDataListener implements Listener
 	@EventHandler
 	public void onChangePass(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		Cilent_Player cilent = (Cilent_Player)event.getCilent();
 		if(data.length!=4||!data[0].equalsIgnoreCase("changepassword")||event.getCilent().getType()!=CilentType.Player)
 			return;
+		Cilent_Player cilent = (Cilent_Player)event.getCilent();
 		if(!data[1].equalsIgnoreCase(MD5.GetMD5Code(Vars.adminkey))){
 			event.getCilent().sendData("changepassword result fail adminkey".getBytes());
 			System.out.println("[ExMCTool]"+cilent.getName()+"改密失败(管理密码错误)");
