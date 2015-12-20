@@ -10,7 +10,7 @@ import com.github.xzzpig.exmctool.*;
 
 public class LoginListener implements Listener
 {
-	@SuppressWarnings("deprecation")
+	
 	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent event){
 		Cilent_Player cilent = Cilent_Player.valueOf(event.getName());
