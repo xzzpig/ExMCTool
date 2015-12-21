@@ -1,8 +1,10 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.event.*;
+
 import java.text.*;
 import java.util.*;
+
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 import org.bukkit.*;
@@ -15,6 +17,7 @@ public class ChatListener implements Listener
 		sendChatMessageToCilent(event.getPlayer().getName(),event.getMessage());
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onGetRemoteChatMessage(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
