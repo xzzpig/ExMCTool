@@ -27,6 +27,8 @@ public class Cilent
 		askForType();
 		if(type == CilentType.Player)
 			new Cilent_Player(this);
+		
+		removeUnConnect();
 	}
 	
 	public static Cilent valueOf(Socket s){
@@ -111,5 +113,11 @@ public class Cilent
 	public void remove(){
 		cilents.remove(this);
 		read = false;
+	}
+	
+	public static void removeUnConnect(){
+		for(Cilent c:cilents)
+			if(c.getSocket().isClosed())
+				c.remove();
 	}
 }

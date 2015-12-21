@@ -11,6 +11,8 @@ import org.bukkit.*;
 
 public class ChatListener implements Listener
 {
+	public static List<String> chats = new ArrayList<String>();
+	
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onChat(PlayerChatEvent event){
@@ -28,7 +30,7 @@ public class ChatListener implements Listener
 		broadmessage;
 		if(event.getCilent().getType() == CilentType.Player){
 			sayer = ((Cilent_Player)event.getCilent()).getName();
-			if(Bukkit.getOfflinePlayer(sayer).isOnline()){
+			if(Bukkit.getPlayer(sayer) != null){
 				Bukkit.getPlayer(sayer).sendMessage(message);
 				sendChatMessageToCilent(sayer,message);
 				return;
@@ -37,13 +39,12 @@ public class ChatListener implements Listener
 		}
 		broadmessage = sayer +":"+message;
 		Bukkit.broadcastMessage(broadmessage);
-		System.out.println(broadmessage);
 		sendChatMessageToCilent(sayer,message);
 	}
 	
 	private void sendChatMessageToCilent(String sayer,String message){
 		Date date=new Date();
-		DateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat format=new SimpleDateFormat("yyyy_MM_dd HH:mm:ss");
 		String time=format.format(date);
 		message = 
 			"chat "+
@@ -53,5 +54,6 @@ public class ChatListener implements Listener
 		for(Cilent cilent:Cilent.cilents){
 			cilent.sendData(message.getBytes());
 		}
+		
 	}
 }
