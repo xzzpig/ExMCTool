@@ -68,6 +68,7 @@ public class ChatListener implements Listener
 			if(amount != -1)
 				for(String message:chatlogs)
 					cilent.sendData(message.getBytes());
+			scanner.close();fin.close();
 		}
 		catch(Exception e){}
 	}
