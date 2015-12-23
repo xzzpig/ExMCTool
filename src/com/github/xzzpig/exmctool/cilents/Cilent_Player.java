@@ -20,9 +20,7 @@ public class Cilent_Player extends Cilent
 	public Cilent_Player(){}
 	
 	public Cilent_Player(Cilent cilent){
-		super(cilent.s);
-		this.types.add(CilentType.Player);
-		cilent.subcilent.put(CilentType.Player,this);
+		super(CilentType.Player,cilent);
 		superc = cilent;
 		askForName();
 		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");

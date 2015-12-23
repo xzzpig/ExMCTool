@@ -19,15 +19,15 @@ public class Cilent
 	private boolean read = true;
 	
 	public Cilent(){}
-	public Cilent(CilentType type){}
+	public Cilent(CilentType type,Cilent superc){
+		superc.subcilent.put(type,this);
+		this.types.add(type);
+	}
 	public Cilent(Socket s){
 		cilents.add(this);
 		types.add(CilentType.Basic);
 		this.s = s;
 		readdata();
-		if(this.types.size() != 1){
-			return;
-		}
 		askForType();
 		removeUnConnect();
 	}
