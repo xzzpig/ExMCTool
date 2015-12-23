@@ -1,8 +1,8 @@
 package com.github.xzzpig.exmctool.cilents;
 
 import com.github.xzzpig.exmctool.event.*;
+
 import org.bukkit.*;
-import org.bukkit.entity.*;
 
 public class Cilent_Chatable extends Cilent
 {
@@ -27,6 +27,7 @@ public class Cilent_Chatable extends Cilent
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public String getName(){
 		String sayer = "未知来源<"+s.getInetAddress().getHostName()+">";
 		if(superc.isType(CilentType.Player)){

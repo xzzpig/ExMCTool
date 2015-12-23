@@ -1,8 +1,9 @@
 package com.github.xzzpig.exmctool;
 
+import java.util.logging.Logger;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.xzzpig.exmctool.listener.AlwaysDataListener;
 import com.github.xzzpig.exmctool.listener.*;
 import com.github.xzzpig.exmctool.logutil.*;
 
@@ -11,7 +12,7 @@ public class Main extends JavaPlugin
 	@Override
 	public void onEnable(){
 		getLogger().info(getName()+"已加载");
-		getLogger().addHandler(new LogHandler());
+		Logger.getGlobal().addHandler(new LogHandler());
 		saveDefaultConfig();
 		Vars.config = getConfig();
 		Vars.TcpThread = new Thread(new TcpServer());

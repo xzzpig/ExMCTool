@@ -2,7 +2,6 @@ package com.github.xzzpig.exmctool.event;
 
 import org.bukkit.event.*;
 
-import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.cilents.Cilent;
 
 public class DataReachEvent extends Event

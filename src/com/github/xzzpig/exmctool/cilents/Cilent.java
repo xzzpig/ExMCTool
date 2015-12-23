@@ -19,9 +19,10 @@ public class Cilent
 	private boolean read = true;
 	
 	public Cilent(){}
-	
+	public Cilent(CilentType type){}
 	public Cilent(Socket s){
 		cilents.add(this);
+		types.add(CilentType.Basic);
 		this.s = s;
 		readdata();
 		if(this.types.size() != 1){
@@ -52,7 +53,7 @@ public class Cilent
 				} catch (InterruptedException e) {e.printStackTrace();}
 				if(types.size() == 1){
 					types.add(CilentType.Unknown);
-					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+CilentType.Unknown);
+					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+CilentType.Unknown+self);
 				}
 			}
 		}).start();
@@ -66,12 +67,10 @@ public class Cilent
 	public Cilent setType(CilentType type) {
 		this.types.add(type);
 		try{
-			Cilent cil = (Cilent) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent"+type).newInstance();
+			Cilent cil = (Cilent) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent_"+type).newInstance();
 			cil.renew(this);
 		}
-		catch(ClassNotFoundException e){}
-		catch(InstantiationException e){}
-		catch(IllegalAccessException e){}
+		catch(Exception e){e.printStackTrace();}
 		return this;
 	}
 	

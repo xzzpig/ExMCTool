@@ -1,8 +1,6 @@
 package com.github.xzzpig.exmctool.listener;
 
-import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.cilents.Cilent;
-import com.github.xzzpig.exmctool.cilents.Cilent_Player;
 import com.github.xzzpig.exmctool.event.*;
 
 import java.io.*;
@@ -72,7 +70,6 @@ public class ChatListener implements Listener
 					chatlogs.remove(0);
 				chatlogs.add(message);
 			}
-			System.out.println(Arrays.toString(chatlogs.toArray()));
 			if(amount != -1)
 				for(String message:chatlogs)
 					cilent.sendData(message.getBytes());
