@@ -4,12 +4,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.xzzpig.exmctool.listener.AlwaysDataListener;
 import com.github.xzzpig.exmctool.listener.*;
+import com.github.xzzpig.exmctool.logutil.*;
 
 public class Main extends JavaPlugin
 {
 	@Override
 	public void onEnable(){
 		getLogger().info(getName()+"已加载");
+		getLogger().addHandler(new LogHandler());
 		saveDefaultConfig();
 		Vars.config = getConfig();
 		Vars.TcpThread = new Thread(new TcpServer());
@@ -19,13 +21,14 @@ public class Main extends JavaPlugin
 			getServer().getPluginManager().registerEvents(new LoginListener(),this);
 		if(Vars.enable_chat)
 			getServer().getPluginManager().registerEvents(new ChatListener(),this);
-			
+
 	}
 
 	@SuppressWarnings("deprecation")
 	@Override
 	public void onDisable(){
 		getLogger().info(getName()+"已停载");
+		
 		try{
 			TcpServer.server.close();
 			Vars.TcpThread.stop();
@@ -34,5 +37,4 @@ public class Main extends JavaPlugin
 			e.printStackTrace();
 		}
 	}
-
 }

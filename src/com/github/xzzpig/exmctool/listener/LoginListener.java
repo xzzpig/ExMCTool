@@ -41,12 +41,12 @@ public class LoginListener implements Listener
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onLoginData(DataReachEvent event){
+	public void onLoginData(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		if(data.length!=3||!data[0].equalsIgnoreCase("login")||event.getCilent().getType()!=CilentType.Player)
+		if(data.length!=3||!data[0].equalsIgnoreCase("login"))
 			return;
 		String key=data[1],value=data[2];
-		Cilent_Player cilent = (Cilent_Player)event.getCilent();
+		Cilent_Player cilent = event.getPlayerCilent();
 		if(!cilent.loginexam)
 			return;
 		switch(key) {

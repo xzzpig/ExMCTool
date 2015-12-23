@@ -15,7 +15,7 @@ public class AlwaysDataListener implements Listener
 			System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的类型设为"+event.getCilent().getType());
 	}
 	@EventHandler
-	public void onGetName(DataReachEvent event){
+	public void onGetName(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=2||!data[0].equalsIgnoreCase("name")||event.getCilent().getType()!=CilentType.Player)
 			return;
@@ -24,7 +24,7 @@ public class AlwaysDataListener implements Listener
 	}
 
 	@EventHandler
-	public void onChangePass(DataReachEvent event){
+	public void onChangePass(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=4||!data[0].equalsIgnoreCase("changepassword")||event.getCilent().getType()!=CilentType.Player)
 			return;

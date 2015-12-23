@@ -11,6 +11,7 @@ public class Cilent
 {
 	public static List<Cilent> cilents = new ArrayList<Cilent>();
 	
+	private Cilent self = this;
 	protected Socket s;
 	protected byte[] data;
 	protected CilentType type;
@@ -110,7 +111,13 @@ public class Cilent
 						catch(IOException e){}
 						try {
 							data = Arrays.copyOf(buf,length);
-							Bukkit.getPluginManager().callEvent(new DataReachEvent(valueOf(s),data));
+							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
+							for(Cilent cil:cilents){
+								if(cil.s == s&&cil!=self){
+									cil.data = data;
+									cil.readdata();
+								}
+							}
 						} catch (Exception e) {Cilent.removeUnConnect();}
 					}
 				}
@@ -118,8 +125,12 @@ public class Cilent
 	}
 	
 	public void remove(){
-		cilents.remove(this);
-		read = false;
+		for(Cilent cil:cilents){
+			if(cil.s != s)
+				continue;
+			cilents.remove(cil);
+			cil.read = false;
+		}
 	}
 	
 	public static void removeUnConnect(){

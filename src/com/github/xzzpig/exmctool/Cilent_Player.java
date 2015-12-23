@@ -5,15 +5,17 @@ import java.io.*;
 
 import org.bukkit.*;
 import org.bukkit.entity.*;
+import com.github.xzzpig.exmctool.event.*;
 
 public class Cilent_Player extends Cilent
 {
 	public String name,password;
 	public String uncheckpass,uncheckkey,uncheckplayer;
 	public boolean loginexam,login;
+	private Cilent_Player self = this;
+	
 	public Cilent_Player(Cilent cilent){
 		super(cilent.s);
-		cilent.remove();
 		askForName();
 		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
 	}
@@ -97,5 +99,10 @@ public class Cilent_Player extends Cilent
 			return LoginError.DifferentID;
 		login = true;
 		return null;
+	}
+
+	@Override
+	protected void readdata(){
+		Bukkit.getPluginManager().callEvent(new PlayerDataReachEvent(self,data));
 	}
 }
