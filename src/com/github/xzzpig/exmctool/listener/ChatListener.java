@@ -47,11 +47,14 @@ public class ChatListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(!data[0].equalsIgnoreCase("getchat"))
 			return;
-		String date = data[1];
+		Date ddate=new Date();
+		DateFormat format=new SimpleDateFormat("yyyy_MM_dd");
 		int amount = -1;
 		Cilent cilent = event.getCilent();
+		String date = format.format(ddate);
 		try{
-			amount = Integer.valueOf(data[2]);
+			amount = Integer.valueOf(data[1]);
+			date = data[2];
 		}catch(Exception exp){}
 		File logfile = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/chat/"+date+".log");
 		List<String> chatlogs = new ArrayList<String>();
@@ -62,9 +65,11 @@ public class ChatListener implements Listener
 				String message = scanner.nextLine();
 				if(amount == -1)
 					cilent.sendData(message.getBytes());
-				else if(chatlogs.size()>amount){
-					chatlogs.remove(0);chatlogs.add(message);}
+				else if(chatlogs.size()>=amount)
+					chatlogs.remove(0);
+				chatlogs.add(message);
 			}
+			System.out.println(Arrays.toString(chatlogs.toArray()));
 			if(amount != -1)
 				for(String message:chatlogs)
 					cilent.sendData(message.getBytes());

@@ -82,9 +82,14 @@ public class Cilent
 	public void sendData(byte[] data){
 		try{
 			s.getOutputStream().write(data);
+			Thread.sleep(5);
 		}
 		catch(Exception e){
-			System.out.println("[ExMCTool]Wrong!发送数据到"+s.getRemoteSocketAddress()+"失败");
+			if(s.isConnected())
+				System.out.println("[ExMCTool]Wrong!发送数据到"+s.getRemoteSocketAddress()+"失败");
+			else {
+				this.remove();
+			}
 		}
 	}
 	
@@ -94,7 +99,7 @@ public class Cilent
 				public void run(){
 					while(read){
 						if(s.isClosed()){
-							cilents.remove(valueOf(s));
+							remove();
 							return;
 						}
 						byte[] buf = new byte[1024*1024];
@@ -103,8 +108,10 @@ public class Cilent
 							length = s.getInputStream().read(buf);
 						}
 						catch(IOException e){}
-						data = Arrays.copyOf(buf,length);
-						Bukkit.getPluginManager().callEvent(new DataReachEvent(valueOf(s),data));
+						try {
+							data = Arrays.copyOf(buf,length);
+							Bukkit.getPluginManager().callEvent(new DataReachEvent(valueOf(s),data));
+						} catch (Exception e) {Cilent.removeUnConnect();}
 					}
 				}
 			}).start();
