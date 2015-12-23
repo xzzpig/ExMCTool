@@ -1,10 +1,13 @@
-package com.github.xzzpig.exmctool;
+package com.github.xzzpig.exmctool.cilents;
 import com.github.xzzpig.BukkitTools.*;
 
 import java.io.*;
 
 import org.bukkit.*;
 import org.bukkit.entity.*;
+
+import com.github.xzzpig.exmctool.LoginError;
+import com.github.xzzpig.exmctool.Vars;
 import com.github.xzzpig.exmctool.event.*;
 
 public class Cilent_Player extends Cilent
@@ -13,16 +16,21 @@ public class Cilent_Player extends Cilent
 	public String uncheckpass,uncheckkey,uncheckplayer;
 	public boolean loginexam,login;
 	private Cilent_Player self = this;
+	public Cilent superc;
+	public Cilent_Player(){}
 	
 	public Cilent_Player(Cilent cilent){
 		super(cilent.s);
+		this.types.add(CilentType.Player);
+		cilent.subcilent.put(CilentType.Player,this);
+		superc = cilent;
 		askForName();
 		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
 	}
 	
 	public static Cilent_Player valueOf(Player player){
 		for(Cilent c:cilents){
-			if(c.type != CilentType.Player)
+			if(!(c.types.contains(CilentType.Player)))
 				continue;
 			if(((Cilent_Player)c).getPlayer() == player)
 				return (Cilent_Player)c;
@@ -31,7 +39,7 @@ public class Cilent_Player extends Cilent
 	}
 	public static Cilent_Player valueOf(String player){
 		for(Cilent c:cilents){
-			if(c.type != CilentType.Player)
+			if(!(c.types.contains(CilentType.Player)))
 				continue;
 			if(((Cilent_Player)c).getName().equalsIgnoreCase(player))
 				return (Cilent_Player)c;
@@ -105,4 +113,11 @@ public class Cilent_Player extends Cilent
 	protected void readdata(){
 		Bukkit.getPluginManager().callEvent(new PlayerDataReachEvent(self,data));
 	}
+
+	@Override
+	public void renew(Cilent c){
+		new Cilent_Player(c);
+	}
+	
+	
 }

@@ -3,6 +3,8 @@ package com.github.xzzpig.exmctool.logutil;
 import java.text.*;
 import java.util.logging.*;
 
+import com.github.xzzpig.exmctool.cilents.Cilent;
+
 public class LogHandler extends Handler
 {
 	private SimpleDateFormat date;
@@ -30,8 +32,8 @@ public class LogHandler extends Handler
 		builder.append(record.getLevel().getName());
 		builder.append("]-");
 		builder.append(message);
-		//this.plugin.onConsoleLogUpdate(builder.toString());
-		System.out.println(builder.toString());
+		for(Cilent c :Cilent.cilents)
+			c.sendData(builder.toString().getBytes());
 	}
 
 	

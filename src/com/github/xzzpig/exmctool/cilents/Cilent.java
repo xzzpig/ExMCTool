@@ -1,4 +1,4 @@
-package com.github.xzzpig.exmctool;
+package com.github.xzzpig.exmctool.cilents;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -14,21 +14,20 @@ public class Cilent
 	private Cilent self = this;
 	protected Socket s;
 	protected byte[] data;
-	protected CilentType type;
+	protected List<CilentType> types = new ArrayList<CilentType>();
+	protected HashMap<CilentType,Cilent> subcilent = new HashMap<CilentType,Cilent>();
 	private boolean read = true;
+	
+	public Cilent(){}
 	
 	public Cilent(Socket s){
 		cilents.add(this);
 		this.s = s;
 		readdata();
-		if(this instanceof Cilent_Player){
-			type = CilentType.Player;
+		if(this.types.size() != 1){
 			return;
 		}
 		askForType();
-		if(type == CilentType.Player)
-			new Cilent_Player(this);
-		
 		removeUnConnect();
 	}
 	
@@ -39,7 +38,6 @@ public class Cilent
 		return null;
 	}
 	private void askForType(){
-		this.type = null;
 		try{
 			s.getOutputStream().write("type".getBytes());
 		}
@@ -52,32 +50,39 @@ public class Cilent
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {e.printStackTrace();}
-				if(type == null){
-					type = CilentType.Unknown;
-					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+getType());
+				if(types.size() == 1){
+					types.add(CilentType.Unknown);
+					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+CilentType.Unknown);
 				}
 			}
 		}).start();
-		while(this.type == null){}
+		while(this.types.size() == 1){}
 	}
 	
-	public CilentType getType() {
-		return type;
+	public boolean isType(CilentType type) {
+		return types.contains(type);
 	}
 
-	public boolean setType(CilentType type) {
-		this.type = type;
-		return true;
-	}
-	public boolean setType(String type) {
-		this.type = CilentType.valueOf(type);
-		if(this.type == null)
-			this.type = CilentType.Unknown;
-		return true;
+	public Cilent setType(CilentType type) {
+		this.types.add(type);
+		try{
+			Cilent cil = (Cilent) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent"+type).newInstance();
+			cil.renew(this);
+		}
+		catch(ClassNotFoundException e){}
+		catch(InstantiationException e){}
+		catch(IllegalAccessException e){}
+		return this;
 	}
 	
 	public Socket getSocket(){
 		return s;
+	}
+	
+	public Cilent getSubCilet(CilentType type){
+		if(subcilent.containsKey(type))
+			return subcilent.get(type);
+		return null;
 	}
 	
 	public void sendData(byte[] data){
@@ -138,4 +143,6 @@ public class Cilent
 			if(c.getSocket().isClosed())
 				c.remove();
 	}
+	
+	public void renew(Cilent c){}
 }

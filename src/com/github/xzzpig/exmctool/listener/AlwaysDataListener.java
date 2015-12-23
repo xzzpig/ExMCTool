@@ -1,7 +1,10 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.BukkitTools.*;
 import com.github.xzzpig.exmctool.*;
+import com.github.xzzpig.exmctool.cilents.CilentType;
+import com.github.xzzpig.exmctool.cilents.Cilent_Player;
 import com.github.xzzpig.exmctool.event.*;
+
 import org.bukkit.event.*;
 
 public class AlwaysDataListener implements Listener
@@ -11,13 +14,13 @@ public class AlwaysDataListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=2||!data[0].equalsIgnoreCase("type"))
 			return;
-		if(event.getCilent().setType(data[1]))
-			System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的类型设为"+event.getCilent().getType());
+		event.getCilent().setType(CilentType.valueOf(data[1]));
+		System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的类型设为"+data[1]);
 	}
 	@EventHandler
 	public void onGetName(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		if(data.length!=2||!data[0].equalsIgnoreCase("name")||event.getCilent().getType()!=CilentType.Player)
+		if(data.length!=2||!data[0].equalsIgnoreCase("name"))
 			return;
 		if(((Cilent_Player)event.getCilent()).setName(data[1]))
 			System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的指向玩家设为"+data[1]);
@@ -26,7 +29,7 @@ public class AlwaysDataListener implements Listener
 	@EventHandler
 	public void onChangePass(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		if(data.length!=4||!data[0].equalsIgnoreCase("changepassword")||event.getCilent().getType()!=CilentType.Player)
+		if(data.length!=4||!data[0].equalsIgnoreCase("changepassword"))
 			return;
 		Cilent_Player cilent = (Cilent_Player)event.getCilent();
 		if(!data[1].equalsIgnoreCase(MD5.GetMD5Code(Vars.adminkey))){

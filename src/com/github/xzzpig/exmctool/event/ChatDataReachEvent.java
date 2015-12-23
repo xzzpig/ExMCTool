@@ -1,21 +1,19 @@
 package com.github.xzzpig.exmctool.event;
+import com.github.xzzpig.exmctool.cilents.*;
 import org.bukkit.event.*;
 
-import com.github.xzzpig.exmctool.*;
-import com.github.xzzpig.exmctool.cilents.Cilent_Player;
-
-public class PlayerDataReachEvent extends DataReachEvent
+public class ChatDataReachEvent extends DataReachEvent
 {
 	private static final HandlerList handlers = new HandlerList();
-	
-	private Cilent_Player pcilent;
-	
-	public PlayerDataReachEvent(Cilent_Player c,byte[] data) {
+
+	private Cilent_Chatable pcilent;
+
+	public ChatDataReachEvent(Cilent_Chatable c,byte[] data) {
 		super(c,data);
 		this.pcilent = c;
 	}
-	
-	public Cilent_Player getPlayerCilent(){
+
+	public Cilent_Chatable getChatableCilent(){
 		return pcilent;
 	}
 
