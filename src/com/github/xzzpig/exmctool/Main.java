@@ -1,6 +1,6 @@
 package com.github.xzzpig.exmctool;
 
-import java.util.logging.Logger;
+import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,7 +12,8 @@ public class Main extends JavaPlugin
 	@Override
 	public void onEnable(){
 		getLogger().info(getName()+"已加载");
-		Logger.getLogger(org.bukkit.craftbukkit.Main.class.getName()).addHandler(new LogHandler());
+		startRedirectConsoleLog();
+		//getLogger().addHandler(new LogHandler().setLevel2(Level.ALL));
 		saveDefaultConfig();
 		Vars.config = getConfig();
 		Vars.TcpThread = new Thread(new TcpServer());
@@ -37,4 +38,22 @@ public class Main extends JavaPlugin
 			e.printStackTrace();
 		}
 	}
+	
+	  private void startRedirectConsoleLog()
+	  {
+		  Debuger.print("开始读取log");
+	    try
+	    {
+	      Class.forName("org.apache.logging.log4j.LogManager");
+	      LogRedirectWithLog4j.regist();;
+	      getLogger().info("Start redirect console log with log4j.");
+	    }
+	    catch (NoClassDefFoundError|Exception e)
+	    {
+	      LogHandler handler = new LogHandler();
+	      handler.setLevel(Level.ALL);
+	      getServer().getLogger().addHandler(handler);
+	      getLogger().info("Start redirect console log with Java Logging API.");
+	    }
+	  }
 }

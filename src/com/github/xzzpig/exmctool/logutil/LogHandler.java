@@ -35,6 +35,9 @@ public class LogHandler extends Handler
 		for(Client c :Client.clients)
 			c.sendData(builder.toString().getBytes());
 	}
-
 	
+	public synchronized LogHandler setLevel2(Level newLevel) throws SecurityException {
+		super.setLevel(newLevel);
+		return this;
+	}
 }
