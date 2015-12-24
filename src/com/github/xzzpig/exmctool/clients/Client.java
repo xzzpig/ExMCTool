@@ -5,7 +5,6 @@ import java.io.*;
 
 import org.bukkit.*;
 
-import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.event.*;
 
 public class Client
@@ -69,7 +68,7 @@ public class Client
 	public Client setType(ClientType type) {
 		this.types.add(type);
 		try{
-			Client cli = (Client) Class.forName("com.github.xzzpig.exmctool.clients.Cllent_"+type).newInstance();
+			Client cli = (Client) Class.forName("com.github.xzzpig.exmctool.clients.Client_"+type).newInstance();
 			cli.renew(this);
 		}
 		catch(Exception e){e.printStackTrace();}
@@ -117,7 +116,6 @@ public class Client
 						catch(IOException e){}
 						try {
 							data = Arrays.copyOf(buf,length);
-							Debuger.print(new String(data));
 							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
 							for(ClientType cy:ClientType.values()){
 								if(subclient.containsKey(cy)){
