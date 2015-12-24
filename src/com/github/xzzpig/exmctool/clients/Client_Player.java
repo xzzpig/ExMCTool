@@ -57,6 +57,7 @@ public class Client_Player extends Client
 	
 	public boolean setName(String name){
 		this.name = name;
+		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
 		return true;
 	}
 	public String getName(){

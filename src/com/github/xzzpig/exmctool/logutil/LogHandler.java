@@ -4,6 +4,8 @@ import java.text.*;
 import java.util.logging.*;
 
 import com.github.xzzpig.exmctool.clients.Client;
+import org.bukkit.*;
+import com.github.xzzpig.exmctool.event.*;
 
 public class LogHandler extends Handler
 {
@@ -24,20 +26,6 @@ public class LogHandler extends Handler
 	public void flush(){}
 
 	public void publish(LogRecord record){
-		StringBuilder builder = new StringBuilder();
-		String message =record.getMessage();
-
-		builder.append(this.date.format(Long.valueOf(record.getMillis())));
-		builder.append("-[");
-		builder.append(record.getLevel().getName());
-		builder.append("]-");
-		builder.append(message);
-		for(Client c :Client.clients)
-			c.sendData(builder.toString().getBytes());
-	}
-	
-	public synchronized LogHandler setLevel2(Level newLevel) throws SecurityException {
-		super.setLevel(newLevel);
-		return this;
+		Bukkit.getPluginManager().callEvent(new LogPrintEvent(this.date.format(Long.valueOf(record.getMillis())),record.getLevel().getName(),record.getMessage(),record.getThrown()));
 	}
 }

@@ -1,14 +1,23 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.BukkitTools.*;
 import com.github.xzzpig.exmctool.*;
-import com.github.xzzpig.exmctool.clients.ClientType;
-import com.github.xzzpig.exmctool.clients.Client_Player;
+import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
-
+import java.io.*;
+import java.text.*;
+import java.util.*;
+import org.bukkit.*;
 import org.bukkit.event.*;
 
 public class AlwaysDataListener implements Listener
 {
+	private static File log,dir = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log");
+	private static String day;
+	private static FileOutputStream fout;
+	private static DateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+	static{
+		dir.mkdirs();
+	}
 	@EventHandler
 	public void onGetType(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
@@ -17,6 +26,7 @@ public class AlwaysDataListener implements Listener
 		event.getClient().setType(ClientType.valueOf(data[1]));
 		System.out.println("[ExMCTool]"+event.getClient().getSocket().getRemoteSocketAddress()+"的类型设为"+data[1]);
 	}
+	
 	@EventHandler
 	public void onGetName(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
@@ -47,5 +57,32 @@ public class AlwaysDataListener implements Listener
 			System.out.println("[ExMCTool]"+client.getName()+"改密失败(原密码错误)");
 		}
 		TConfig.saveConfig("ExMCTool","login.yml","login.password."+client.getName(),client.password);
+	}
+	
+	@EventHandler
+	public void onPrintLog(LogPrintEvent event){
+		String today = date.format(new Date());
+		if(day == null||!day.equalsIgnoreCase(today)){
+			day = today;
+			log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/chat/"+day+".log");
+			try{
+				log.createNewFile();
+			}
+			catch(IOException e){e.printStackTrace();}
+			try{
+				if(fout!=null)
+					fout.close();
+			}
+			catch(IOException e){e.printStackTrace();}
+			try{
+				fout = new  FileOutputStream(log,true);
+			}
+			catch(FileNotFoundException e){}
+			try{
+				fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")+" "+event.getThrowa().getMessage()).getBytes());
+				fout.flush();
+			}
+			catch(IOException e){}
+		}
 	}
 }
