@@ -1,4 +1,4 @@
-package com.github.xzzpig.exmctool.cilents;
+package com.github.xzzpig.exmctool.clients;
 import com.github.xzzpig.BukkitTools.*;
 
 import java.io.*;
@@ -11,37 +11,37 @@ import com.github.xzzpig.exmctool.LoginError;
 import com.github.xzzpig.exmctool.Vars;
 import com.github.xzzpig.exmctool.event.*;
 
-public class Cilent_Player extends Cilent
+public class Client_Player extends Client
 {
 	public String name,password;
 	public String uncheckpass,uncheckkey,uncheckplayer;
 	public boolean loginexam,login;
-	private Cilent_Player self = this;
-	public Cilent superc;
-	public Cilent_Player(){}
+	private Client_Player self = this;
+	public Client superc;
+	public Client_Player(){}
 	
-	public Cilent_Player(Cilent cilent){
-		super(CilentType.Player,cilent);
-		superc = cilent;
+	public Client_Player(Client client){
+		super(ClientType.Player,client);
+		superc = client;
 		askForName();
 		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
 	}
 	
-	public static Cilent_Player valueOf(Player player){
-		for(Cilent c:cilents){
-			if(!(c.types.contains(CilentType.Player)))
+	public static Client_Player valueOf(Player player){
+		for(Client c:clients){
+			if(!(c.types.contains(ClientType.Player)))
 				continue;
-			if(((Cilent_Player)c).getPlayer() == player)
-				return (Cilent_Player)c;
+			if(((Client_Player)c).getPlayer() == player)
+				return (Client_Player)c;
 		}
 		return null;
 	}
-	public static Cilent_Player valueOf(String player){
-		for(Cilent c:cilents){
-			if(!(c.types.contains(CilentType.Player)))
+	public static Client_Player valueOf(String player){
+		for(Client c:clients){
+			if(!(c.types.contains(ClientType.Player)))
 				continue;
-			if(((Cilent_Player)c).getName().equalsIgnoreCase(player))
-				return (Cilent_Player)c;
+			if(((Client_Player)c).getName().equalsIgnoreCase(player))
+				return (Client_Player)c;
 		}
 		return null;
 	}
@@ -115,8 +115,8 @@ public class Cilent_Player extends Cilent
 	}
 
 	@Override
-	public void renew(Cilent c){
-		new Cilent_Player(c);
+	public void renew(Client c){
+		new Client_Player(c);
 	}
 	
 	

@@ -2,17 +2,17 @@ package com.github.xzzpig.exmctool.event;
 
 import org.bukkit.event.*;
 
-import com.github.xzzpig.exmctool.cilents.Cilent;
+import com.github.xzzpig.exmctool.clients.Client;
 
 public class DataReachEvent extends Event
 {
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Cilent cilent;
+	private Client client;
 	private byte[] data;
 	
-	public DataReachEvent(Cilent c,byte[] data) {
-		this.cilent = c;
+	public DataReachEvent(Client c,byte[] data) {
+		this.client = c;
 		this.data = data;
 	}
 	
@@ -23,8 +23,8 @@ public class DataReachEvent extends Event
 		return new String(data);
 	}
 	
-	public Cilent getCilent(){
-		return cilent;
+	public Client getCilent(){
+		return client;
 	}
 	
 	public HandlerList getHandlers() {

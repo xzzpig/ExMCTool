@@ -3,7 +3,7 @@ package com.github.xzzpig.exmctool.logutil;
 import java.text.*;
 import java.util.logging.*;
 
-import com.github.xzzpig.exmctool.cilents.Cilent;
+import com.github.xzzpig.exmctool.clients.Client;
 
 public class LogHandler extends Handler
 {
@@ -32,7 +32,7 @@ public class LogHandler extends Handler
 		builder.append(record.getLevel().getName());
 		builder.append("]-");
 		builder.append(message);
-		for(Cilent c :Cilent.cilents)
+		for(Client c :Client.clients)
 			c.sendData(builder.toString().getBytes());
 	}
 

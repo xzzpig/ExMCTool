@@ -6,7 +6,7 @@ import java.net.Socket;
 
 import org.bukkit.Bukkit;
 
-import com.github.xzzpig.exmctool.cilents.Cilent;
+import com.github.xzzpig.exmctool.clients.Client;
 
 public class TcpServer implements Runnable{	
 	public static ServerSocket server;
@@ -25,7 +25,7 @@ public class TcpServer implements Runnable{
 			Socket s = null;
 			try {s = ss.accept();} catch (IOException e) {}
 			System.out.println("[ExMCTool]客户端"+s.getInetAddress().getHostName()+"已连入");
-			new Cilent(s);
+			new Client(s);
 			}
 	}
 }

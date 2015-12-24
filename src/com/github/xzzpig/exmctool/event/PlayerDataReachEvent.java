@@ -1,20 +1,20 @@
 package com.github.xzzpig.exmctool.event;
 import org.bukkit.event.*;
 
-import com.github.xzzpig.exmctool.cilents.Cilent_Player;
+import com.github.xzzpig.exmctool.clients.Client_Player;
 
 public class PlayerDataReachEvent extends DataReachEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Cilent_Player pcilent;
+	private Client_Player pcilent;
 	
-	public PlayerDataReachEvent(Cilent_Player c,byte[] data) {
+	public PlayerDataReachEvent(Client_Player c,byte[] data) {
 		super(c,data);
 		this.pcilent = c;
 	}
 	
-	public Cilent_Player getPlayerCilent(){
+	public Client_Player getPlayerCilent(){
 		return pcilent;
 	}
 

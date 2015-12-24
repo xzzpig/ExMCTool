@@ -1,5 +1,5 @@
 package com.github.xzzpig.exmctool.listener;
-import com.github.xzzpig.exmctool.cilents.Cilent_Player;
+import com.github.xzzpig.exmctool.clients.Client_Player;
 import com.github.xzzpig.exmctool.event.*;
 
 import org.bukkit.*;
@@ -14,7 +14,7 @@ public class LoginListener implements Listener
 	
 	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent event){
-		Cilent_Player cilent = Cilent_Player.valueOf(event.getName());
+		Client_Player cilent = Client_Player.valueOf(event.getName());
 		if(cilent == null){
 			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoCilent);
@@ -47,7 +47,7 @@ public class LoginListener implements Listener
 		if(data.length!=3||!data[0].equalsIgnoreCase("login"))
 			return;
 		String key=data[1],value=data[2];
-		Cilent_Player cilent = event.getPlayerCilent();
+		Client_Player cilent = event.getPlayerCilent();
 		if(!cilent.loginexam)
 			return;
 		switch(key) {

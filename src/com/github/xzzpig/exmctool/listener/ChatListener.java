@@ -1,7 +1,6 @@
 package com.github.xzzpig.exmctool.listener;
 
 import com.github.xzzpig.exmctool.Debuger;
-import com.github.xzzpig.exmctool.cilents.Cilent;
 import com.github.xzzpig.exmctool.event.*;
 
 import java.io.*;
@@ -12,7 +11,7 @@ import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
 
-import com.github.xzzpig.exmctool.cilents.*;
+import com.github.xzzpig.exmctool.clients.*;
 
 public class ChatListener implements Listener
 {
@@ -33,7 +32,7 @@ public class ChatListener implements Listener
 		String sayer = event.getChatableCilent().getName(),
 			message = data[1],
 			broadmessage;
-		if(event.getChatableCilent().superc.isType(CilentType.Player)){
+		if(event.getChatableCilent().superc.isType(ClientType.Player)){
 			if(Bukkit.getPlayer(sayer)!=null){
 				Bukkit.getPlayer(sayer).sendMessage(message);
 				sendChatMessageToCilent(sayer,message);
@@ -54,7 +53,7 @@ public class ChatListener implements Listener
 		Date ddate=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy_MM_dd");
 		int amount = -1;
-		Cilent cilent = event.getCilent();
+		Client client = event.getCilent();
 		String date = format.format(ddate);
 		try{
 			amount = Integer.valueOf(data[1]);
@@ -68,14 +67,14 @@ public class ChatListener implements Listener
 			while(scanner.hasNextLine()){
 				String message = scanner.nextLine();
 				if(amount == -1)
-					cilent.sendData(message.getBytes());
+					client.sendData(message.getBytes());
 				else if(chatlogs.size()>=amount)
 					chatlogs.remove(0);
 				chatlogs.add(message);
 			}
 			if(amount != -1)
 				for(String message:chatlogs)
-					cilent.sendData(message.getBytes());
+					client.sendData(message.getBytes());
 			scanner.close();fin.close();
 		}
 		catch(Exception e){}
@@ -90,8 +89,8 @@ public class ChatListener implements Listener
 			"<Player>"+sayer+"<Player/>"+
 			"<Message>"+message+"<Message/>"+
 			"<Time>"+time+"<Time/>";
-		for(Cilent cilent:Cilent.cilents){
-			cilent.sendData(message.getBytes());
+		for(Client client:Client.clients){
+			client.sendData(message.getBytes());
 		}
 		File dir = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/chat"),
 			outfile = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/chat/"+time.split(" ")[0]+".log");

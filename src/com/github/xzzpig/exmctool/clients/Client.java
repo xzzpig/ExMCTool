@@ -1,4 +1,4 @@
-package com.github.xzzpig.exmctool.cilents;
+package com.github.xzzpig.exmctool.clients;
 import java.net.*;
 import java.util.*;
 import java.io.*;
@@ -8,34 +8,34 @@ import org.bukkit.*;
 import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.event.*;
 
-public class Cilent
+public class Client
 {
-	public static List<Cilent> cilents = new ArrayList<Cilent>();
+	public static List<Client> clients = new ArrayList<Client>();
 	
-	private Cilent self = this;
+	private Client self = this;
 	protected Socket s;
 	protected byte[] data;
-	protected List<CilentType> types = new ArrayList<CilentType>();
-	protected HashMap<CilentType,Cilent> subcilent = new HashMap<CilentType,Cilent>();
+	protected List<ClientType> types = new ArrayList<ClientType>();
+	protected HashMap<ClientType,Client> subcilent = new HashMap<ClientType,Client>();
 	private boolean read = true;
 	
-	public Cilent(){}
-	public Cilent(CilentType type,Cilent superc){
+	public Client(){}
+	public Client(ClientType type,Client superc){
 		superc.subcilent.put(type,this);
 		this.types.add(type);
 		this.s = superc.s;
 	}
-	public Cilent(Socket s){
-		cilents.add(this);
-		types.add(CilentType.Basic);
+	public Client(Socket s){
+		clients.add(this);
+		types.add(ClientType.Basic);
 		this.s = s;
 		readdata();
 		askForType();
 		removeUnConnect();
 	}
 	
-	public static Cilent valueOf(Socket s){
-		for(Cilent c:cilents)
+	public static Client valueOf(Socket s){
+		for(Client c:clients)
 		if(c.s == s)
 			return c;
 		return null;
@@ -54,22 +54,22 @@ public class Cilent
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {e.printStackTrace();}
 				if(types.size() == 1){
-					types.add(CilentType.Unknown);
-					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+CilentType.Unknown+self);
+					types.add(ClientType.Unknown);
+					System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+ClientType.Unknown+self);
 				}
 			}
 		}).start();
 		while(this.types.size() == 1){}
 	}
 	
-	public boolean isType(CilentType type) {
+	public boolean isType(ClientType type) {
 		return types.contains(type);
 	}
 
-	public Cilent setType(CilentType type) {
+	public Client setType(ClientType type) {
 		this.types.add(type);
 		try{
-			Cilent cil = (Cilent) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent_"+type).newInstance();
+			Client cil = (Client) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent_"+type).newInstance();
 			cil.renew(this);
 		}
 		catch(Exception e){e.printStackTrace();}
@@ -80,7 +80,7 @@ public class Cilent
 		return s;
 	}
 	
-	public Cilent getSubCilet(CilentType type){
+	public Client getSubCilet(ClientType type){
 		if(subcilent.containsKey(type))
 			return subcilent.get(type);
 		return null;
@@ -119,33 +119,33 @@ public class Cilent
 							data = Arrays.copyOf(buf,length);
 							Debuger.print(new String(data));
 							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
-							for(CilentType cy:CilentType.values()){
+							for(ClientType cy:ClientType.values()){
 								if(subcilent.containsKey(cy)){
-									Cilent cil = subcilent.get(cy);
+									Client cil = subcilent.get(cy);
 									cil.data = data;
 									cil.readdata();
 								}
 							}
-						} catch (Exception e) {Cilent.removeUnConnect();}
+						} catch (Exception e) {Client.removeUnConnect();}
 					}
 				}
 			}).start();
 	}
 	
 	public void remove(){
-		for(Cilent cil:cilents){
+		for(Client cil:clients){
 			if(cil.s != s)
 				continue;
-			cilents.remove(cil);
+			clients.remove(cil);
 			cil.read = false;
 		}
 	}
 	
 	public static void removeUnConnect(){
-		for(Cilent c:cilents)
+		for(Client c:clients)
 			if(c.getSocket().isClosed())
 				c.remove();
 	}
 	
-	public void renew(Cilent c){}
+	public void renew(Client c){}
 }
