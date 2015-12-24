@@ -6,6 +6,7 @@ import java.io.*;
 import org.bukkit.*;
 import org.bukkit.entity.*;
 
+import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.LoginError;
 import com.github.xzzpig.exmctool.Vars;
 import com.github.xzzpig.exmctool.event.*;
@@ -46,6 +47,7 @@ public class Cilent_Player extends Cilent
 	}
 	
 	protected void askForName(){
+		Debuger.print("forname"+s.isOutputShutdown());
 		try{
 			s.getOutputStream().write("player".getBytes());
 		}

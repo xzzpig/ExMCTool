@@ -1,5 +1,6 @@
 package com.github.xzzpig.exmctool.listener;
 
+import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.cilents.Cilent;
 import com.github.xzzpig.exmctool.event.*;
 
@@ -10,6 +11,7 @@ import java.util.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
+
 import com.github.xzzpig.exmctool.cilents.*;
 
 public class ChatListener implements Listener
@@ -48,6 +50,7 @@ public class ChatListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(!data[0].equalsIgnoreCase("getchat"))
 			return;
+		Debuger.print("getchat");
 		Date ddate=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy_MM_dd");
 		int amount = -1;

@@ -5,6 +5,7 @@ import java.io.*;
 
 import org.bukkit.*;
 
+import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.event.*;
 
 public class Cilent
@@ -22,6 +23,7 @@ public class Cilent
 	public Cilent(CilentType type,Cilent superc){
 		superc.subcilent.put(type,this);
 		this.types.add(type);
+		this.s = superc.s;
 	}
 	public Cilent(Socket s){
 		cilents.add(this);
@@ -115,9 +117,11 @@ public class Cilent
 						catch(IOException e){}
 						try {
 							data = Arrays.copyOf(buf,length);
+							Debuger.print(new String(data));
 							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
-							for(Cilent cil:cilents){
-								if(cil.s == s&&cil!=self){
+							for(CilentType cy:CilentType.values()){
+								if(subcilent.containsKey(cy)){
+									Cilent cil = subcilent.get(cy);
 									cil.data = data;
 									cil.readdata();
 								}
