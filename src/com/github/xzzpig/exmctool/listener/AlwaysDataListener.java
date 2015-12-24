@@ -14,16 +14,16 @@ public class AlwaysDataListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=2||!data[0].equalsIgnoreCase("type"))
 			return;
-		event.getCilent().setType(ClientType.valueOf(data[1]));
-		System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的类型设为"+data[1]);
+		event.getClient().setType(ClientType.valueOf(data[1]));
+		System.out.println("[ExMCTool]"+event.getClient().getSocket().getRemoteSocketAddress()+"的类型设为"+data[1]);
 	}
 	@EventHandler
 	public void onGetName(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=2||!data[0].equalsIgnoreCase("name"))
 			return;
-		if(((Client_Player)event.getCilent()).setName(data[1]))
-			System.out.println("[ExMCTool]"+event.getCilent().getSocket().getRemoteSocketAddress()+"的指向玩家设为"+data[1]);
+		if(((Client_Player)event.getClient()).setName(data[1]))
+			System.out.println("[ExMCTool]"+event.getClient().getSocket().getRemoteSocketAddress()+"的指向玩家设为"+data[1]);
 	}
 
 	@EventHandler
@@ -31,21 +31,21 @@ public class AlwaysDataListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=4||!data[0].equalsIgnoreCase("changepassword"))
 			return;
-		Client_Player cilent = (Client_Player)event.getCilent();
+		Client_Player client = (Client_Player)event.getClient();
 		if(!data[1].equalsIgnoreCase(MD5.GetMD5Code(Vars.adminkey))){
-			event.getCilent().sendData("changepassword result fail adminkey".getBytes());
-			System.out.println("[ExMCTool]"+cilent.getName()+"改密失败(管理密码错误)");
+			event.getClient().sendData("changepassword result fail adminkey".getBytes());
+			System.out.println("[ExMCTool]"+client.getName()+"改密失败(管理密码错误)");
 		}
-		else if(cilent.password.equalsIgnoreCase("null")||
-				cilent.password.equalsIgnoreCase(data[2])){
-			cilent.password = data[3];
-			cilent.sendData("changepassword result success".getBytes());
-			System.out.println("[ExMCTool]"+cilent.getName()+"改密成功");
+		else if(client.password.equalsIgnoreCase("null")||
+				client.password.equalsIgnoreCase(data[2])){
+			client.password = data[3];
+			client.sendData("changepassword result success".getBytes());
+			System.out.println("[ExMCTool]"+client.getName()+"改密成功");
 		}
 		else{
-			cilent.sendData("changepassword result fail password".getBytes());
-			System.out.println("[ExMCTool]"+cilent.getName()+"改密失败(原密码错误)");
+			client.sendData("changepassword result fail password".getBytes());
+			System.out.println("[ExMCTool]"+client.getName()+"改密失败(原密码错误)");
 		}
-		TConfig.saveConfig("ExMCTool","login.yml","login.password."+cilent.getName(),cilent.password);
+		TConfig.saveConfig("ExMCTool","login.yml","login.password."+client.getName(),client.password);
 	}
 }

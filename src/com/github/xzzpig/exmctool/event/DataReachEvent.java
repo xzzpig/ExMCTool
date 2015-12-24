@@ -23,7 +23,7 @@ public class DataReachEvent extends Event
 		return new String(data);
 	}
 	
-	public Client getCilent(){
+	public Client getClient(){
 		return client;
 	}
 	

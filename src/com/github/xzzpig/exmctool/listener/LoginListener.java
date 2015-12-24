@@ -14,29 +14,29 @@ public class LoginListener implements Listener
 	
 	@EventHandler
 	public void onPreLogin(AsyncPlayerPreLoginEvent event){
-		Client_Player cilent = Client_Player.valueOf(event.getName());
-		if(cilent == null){
+		Client_Player client = Client_Player.valueOf(event.getName());
+		if(client == null){
 			event.getLoginResult();
-			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoCilent);
-			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.NoCilent);
+			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoClient);
+			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.NoClient);
 			return;
 		}
-		if(!cilent.getSocket().getInetAddress().getHostAddress().equalsIgnoreCase(event.getAddress().getHostAddress())){
+		if(!client.getSocket().getInetAddress().getHostAddress().equalsIgnoreCase(event.getAddress().getHostAddress())){
 			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.DifferentAddress);
 			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.DifferentAddress);
-			cilent.sendData("login deny".getBytes());
+			client.sendData("login deny".getBytes());
 			return;
 		}
-		cilent.startLoginExam();
-		LoginError error = cilent.isLoginPassed();
+		client.startLoginExam();
+		LoginError error = client.isLoginPassed();
 		if(error == null)
 			event.allow();
 		else{
 			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+error);
 			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+error);
-			cilent.sendData("login pass".getBytes());
+			client.sendData("login pass".getBytes());
 		}
 	}
 	
@@ -47,21 +47,21 @@ public class LoginListener implements Listener
 		if(data.length!=3||!data[0].equalsIgnoreCase("login"))
 			return;
 		String key=data[1],value=data[2];
-		Client_Player cilent = event.getPlayerCilent();
-		if(!cilent.loginexam)
+		Client_Player client = event.getPlayerClient();
+		if(!client.loginexam)
 			return;
 		switch(key) {
 			case "player" :
-				cilent.uncheckplayer = value;
+				client.uncheckplayer = value;
 				break;
 			case "key" :
-				cilent.uncheckkey = value;
+				client.uncheckkey = value;
 				break;
 			case "password" :
-				cilent.uncheckpass = value;
+				client.uncheckpass = value;
 				break;
 			case "callevent":
-				Bukkit.getPluginManager().callEvent(new AsyncPlayerPreLoginEvent(cilent.getName(),cilent.getSocket().getInetAddress()));
+				Bukkit.getPluginManager().callEvent(new AsyncPlayerPreLoginEvent(client.getName(),client.getSocket().getInetAddress()));
 				break;
 		}
 	}

@@ -11,10 +11,8 @@ public class Client_Chatable extends Client
 	
 	public Client_Chatable(){}
 	public Client_Chatable(Client client){
-		super(client.s);
+		super(ClientType.Chatable,client);
 		superc = client;
-		this.types.add(ClientType.Chatable);
-		client.subcilent.put(ClientType.Chatable,this);
 	}
 
 	public static Client_Chatable valueOf(Client client){
@@ -31,7 +29,7 @@ public class Client_Chatable extends Client
 	public String getName(){
 		String sayer = "未知来源<"+s.getInetAddress().getHostName()+">";
 		if(superc.isType(ClientType.Player)){
-			sayer = ((Client_Player)superc.getSubCilet(ClientType.Player)).getName();
+			sayer = ((Client_Player)superc.getSubCliet(ClientType.Player)).getName();
 			if(Bukkit.getPlayer(sayer)!=null)
 				return Bukkit.getPlayer(sayer).getName();
 			sayer = "[远程消息]"+sayer;

@@ -2,7 +2,7 @@ package com.github.xzzpig.exmctool;
 
 public enum LoginError
 {
-	NoCilent("启动器未连接"),
+	NoClient("启动器未连接"),
 	NoData("无数据"),
 	DifferentAddress("IP与记录值不符"),
 	UnStartLogin("未开始登录"),

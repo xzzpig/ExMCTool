@@ -7,15 +7,15 @@ public class ChatDataReachEvent extends DataReachEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 
-	private Client_Chatable pcilent;
+	private Client_Chatable pclient;
 
 	public ChatDataReachEvent(Client_Chatable c,byte[] data) {
 		super(c,data);
-		this.pcilent = c;
+		this.pclient = c;
 	}
 
-	public Client_Chatable getChatableCilent(){
-		return pcilent;
+	public Client_Chatable getChatableClient(){
+		return pclient;
 	}
 
 	public HandlerList getHandlers() {

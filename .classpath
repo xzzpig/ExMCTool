@@ -3,4 +3,5 @@
 <classpathentry kind="src" path="src"/>
 <classpathentry kind="lib" path="D:/craftbukkit-1.7.10-R0.1-20140713.051447-4.jar"/>
 <classpathentry kind="output" path="bin"/>
+<classpathentry kind="lib" path="/storage/emulated/0/AppProjects/craftbukkit-1.6.4-R2.0.jar"/>
 </classpath>

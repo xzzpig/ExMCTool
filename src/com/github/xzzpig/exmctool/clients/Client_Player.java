@@ -25,6 +25,7 @@ public class Client_Player extends Client
 		superc = client;
 		askForName();
 		this.password = TConfig.getConfigFile("ExMCTool","login.yml").getString("login.password."+name,"null");
+		new Client_Chatable(client);
 	}
 	
 	public static Client_Player valueOf(Player player){

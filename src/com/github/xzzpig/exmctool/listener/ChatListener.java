@@ -20,7 +20,7 @@ public class ChatListener implements Listener
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onChat(PlayerChatEvent event){
-		sendChatMessageToCilent(event.getPlayer().getName(),event.getMessage());
+		sendChatMessageToClient(event.getPlayer().getName(),event.getMessage());
 	}
 
 	@SuppressWarnings("deprecation")
@@ -29,19 +29,19 @@ public class ChatListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(data.length!=2||!data[0].equalsIgnoreCase("chat"))
 			return;
-		String sayer = event.getChatableCilent().getName(),
+		String sayer = event.getChatableClient().getName(),
 			message = data[1],
 			broadmessage;
-		if(event.getChatableCilent().superc.isType(ClientType.Player)){
+		if(event.getChatableClient().superc.isType(ClientType.Player)){
 			if(Bukkit.getPlayer(sayer)!=null){
 				Bukkit.getPlayer(sayer).sendMessage(message);
-				sendChatMessageToCilent(sayer,message);
+				sendChatMessageToClient(sayer,message);
 				return;
 			}
 		}
 		broadmessage = sayer+":"+message;
 		Bukkit.broadcastMessage(broadmessage);
-		sendChatMessageToCilent(sayer,message);
+		sendChatMessageToClient(sayer,message);
 	}
 
 	@EventHandler
@@ -53,7 +53,7 @@ public class ChatListener implements Listener
 		Date ddate=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy_MM_dd");
 		int amount = -1;
-		Client client = event.getCilent();
+		Client client = event.getClient();
 		String date = format.format(ddate);
 		try{
 			amount = Integer.valueOf(data[1]);
@@ -80,7 +80,7 @@ public class ChatListener implements Listener
 		catch(Exception e){}
 	}
 	
-	private void sendChatMessageToCilent(String sayer,String message){
+	private void sendChatMessageToClient(String sayer,String message){
 		Date date=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy_MM_dd HH:mm:ss");
 		String time=format.format(date);

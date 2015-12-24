@@ -16,12 +16,12 @@ public class Client
 	protected Socket s;
 	protected byte[] data;
 	protected List<ClientType> types = new ArrayList<ClientType>();
-	protected HashMap<ClientType,Client> subcilent = new HashMap<ClientType,Client>();
+	protected HashMap<ClientType,Client> subclient = new HashMap<ClientType,Client>();
 	private boolean read = true;
 	
 	public Client(){}
 	public Client(ClientType type,Client superc){
-		superc.subcilent.put(type,this);
+		superc.subclient.put(type,this);
 		this.types.add(type);
 		this.s = superc.s;
 	}
@@ -69,8 +69,8 @@ public class Client
 	public Client setType(ClientType type) {
 		this.types.add(type);
 		try{
-			Client cil = (Client) Class.forName("com.github.xzzpig.exmctool.cilents.Cilent_"+type).newInstance();
-			cil.renew(this);
+			Client cli = (Client) Class.forName("com.github.xzzpig.exmctool.clients.Cllent_"+type).newInstance();
+			cli.renew(this);
 		}
 		catch(Exception e){e.printStackTrace();}
 		return this;
@@ -80,9 +80,9 @@ public class Client
 		return s;
 	}
 	
-	public Client getSubCilet(ClientType type){
-		if(subcilent.containsKey(type))
-			return subcilent.get(type);
+	public Client getSubCliet(ClientType type){
+		if(subclient.containsKey(type))
+			return subclient.get(type);
 		return null;
 	}
 	
@@ -120,10 +120,10 @@ public class Client
 							Debuger.print(new String(data));
 							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
 							for(ClientType cy:ClientType.values()){
-								if(subcilent.containsKey(cy)){
-									Client cil = subcilent.get(cy);
-									cil.data = data;
-									cil.readdata();
+								if(subclient.containsKey(cy)){
+									Client cli = subclient.get(cy);
+									cli.data = data;
+									cli.readdata();
 								}
 							}
 						} catch (Exception e) {Client.removeUnConnect();}
@@ -133,11 +133,11 @@ public class Client
 	}
 	
 	public void remove(){
-		for(Client cil:clients){
-			if(cil.s != s)
+		for(Client cli:clients){
+			if(cli.s != s)
 				continue;
-			clients.remove(cil);
-			cil.read = false;
+			clients.remove(cli);
+			cli.read = false;
 		}
 	}
 	

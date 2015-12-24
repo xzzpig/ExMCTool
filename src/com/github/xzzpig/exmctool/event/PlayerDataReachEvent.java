@@ -7,15 +7,15 @@ public class PlayerDataReachEvent extends DataReachEvent
 {
 	private static final HandlerList handlers = new HandlerList();
 	
-	private Client_Player pcilent;
+	private Client_Player pclient;
 	
 	public PlayerDataReachEvent(Client_Player c,byte[] data) {
 		super(c,data);
-		this.pcilent = c;
+		this.pclient = c;
 	}
 	
-	public Client_Player getPlayerCilent(){
-		return pcilent;
+	public Client_Player getPlayerClient(){
+		return pclient;
 	}
 
 	public HandlerList getHandlers() {
