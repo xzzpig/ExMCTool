@@ -8,6 +8,8 @@ import java.util.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.util.*;
+import com.github.xzzpig.BukkitTools.*;
+import com.github.xzzpig.exmctool.*;
 
 public class LogListener implements Listener
 {
@@ -32,7 +34,7 @@ public class LogListener implements Listener
 		}
 		catch(Exception e){e.printStackTrace();}
 	}
-	
+
 	@EventHandler
 	public void onPrintLog(LogPrintEvent event){
 		if(event.getMessage().contains("********")){
@@ -52,7 +54,7 @@ public class LogListener implements Listener
 			if(c.isAcceptLog())
 				c.sendData(("log "+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
 	}
-	
+
 	@EventHandler
 	public void onAskLog(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
@@ -62,7 +64,8 @@ public class LogListener implements Listener
 		int amount = -1;
 		try{
 			amount = Integer.valueOf(data[1]);
-		}catch(Exception exp){}
+		}
+		catch(Exception exp){}
 		File logfile = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/latest.log");
 		List<String> chatlogs = new ArrayList<String>();
 		try{
@@ -70,17 +73,33 @@ public class LogListener implements Listener
 			Scanner scanner = new Scanner(fin);
 			while(scanner.hasNextLine()){
 				String message = scanner.nextLine();
-				if(amount == -1)
+				if(amount==-1)
 					client.sendData(("log "+message).getBytes());
 				else if(chatlogs.size()>=amount)
 					chatlogs.remove(0);
 				chatlogs.add(message);
 			}
-			if(amount != -1)
+			if(amount!=-1)
 				for(String message:chatlogs)
 					client.sendData(("log "+message).getBytes());
 			scanner.close();fin.close();
 		}
 		catch(Exception e){}
+	}
+
+	@EventHandler
+	public void onChangeLogState(DataReachEvent event){
+		String[] data = event.getStringData().split(" ");
+		if(data.length!=4||!data[0].equalsIgnoreCase("changelogstate"))
+			return;
+		Client client = event.getClient();
+		if(!data[1].equalsIgnoreCase(MD5.GetMD5Code(Vars.logkey))){
+			event.getClient().sendData("changelogstate result fail logkey".getBytes());
+			System.out.println("[ExMCTool]"+client.getPossibleName()+"更改log状态失败(log密码错误)");
+		}
+		try{
+			client.setAcceptLog(Boolean.valueOf(data[2]));
+			System.out.println("[ExMCTool]"+client.getPossibleName()+"更改log状态为:"+data[2]);
+		}catch(Exception e){}
 	}
 }

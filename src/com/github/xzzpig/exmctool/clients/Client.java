@@ -70,6 +70,12 @@ public class Client
 		return acceptlog;
 	}
 
+	public String getPossibleName(){
+		if(this.isType(ClientType.Player))
+			return ((Client_Player)getSubCliet(ClientType.Player)).getName();
+		return "未知来源<"+s.getInetAddress().getHostName()+">";
+	}
+	
 	public boolean isType(ClientType type){
 		return types.contains(type);
 	}

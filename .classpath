@@ -4,4 +4,5 @@
 <classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/bukkit"/>
 <classpathentry kind="output" path="bin"/>
 <classpathentry kind="lib" path="/storage/emulated/0/AppProjects/craftbukkit-1.7.10-R0.1-20140713.051447-4.jar"/>
+<classpathentry kind="lib" path="/storage/sdcard0/AppProjects/craftbukkit-1.7.9-R0.2-20140527.004937-6.jar"/>
 </classpath>

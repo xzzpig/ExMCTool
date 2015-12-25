@@ -2,6 +2,8 @@
 port: 10727
 adminkey: madebyhz
 loginkey: madebyhz
+logkey: madybyhz
 enable:
   loginexam: true
   chat: true
+  log: true

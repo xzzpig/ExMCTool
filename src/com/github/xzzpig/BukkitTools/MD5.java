@@ -3,46 +3,55 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 
-public class MD5 {
-    
-    // È«¾ÖÊý×é
-    private final static String[] strDigits = { "0", "1", "2", "3", "4", "5",
-            "6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+public class MD5
+{
 
-    public MD5() {
+    // È«ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private final static String[] strDigits = { "0", "1", "2", "3", "4", "5",
+		"6", "7", "8", "9", "a", "b", "c", "d", "e", "f" };
+
+    public MD5(){
     }
 
-    // ·µ»ØÐÎÊ½ÎªÊý×Ö¸ú×Ö·û´®
-    private static String byteToArrayString(byte bByte) {
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Îªï¿½ï¿½ï¿½Ö¸ï¿½ï¿½Ö·ï¿½
+    private static String byteToArrayString(byte bByte){
         int iRet = bByte;
         // System.out.println("iRet="+iRet);
-        if (iRet < 0) {
+        if(iRet<0){
             iRet += 256;
         }
-        int iD1 = iRet / 16;
-        int iD2 = iRet % 16;
-        return strDigits[iD1] + strDigits[iD2];
+        int iD1 = iRet/16;
+        int iD2 = iRet%16;
+        return strDigits[iD1]+strDigits[iD2];
     }
 
-    // ×ª»»×Ö½ÚÊý×éÎª16½øÖÆ×Ö´®
-    private static String byteToString(byte[] bByte) {
+    // ×ªï¿½ï¿½ï¿½Ö½ï¿½ï¿½ï¿½ï¿½ï¿½Îª16ï¿½ï¿½ï¿½ï¿½ï¿½Ö´ï¿½
+    private static String byteToString(byte[] bByte){
         StringBuffer sBuffer = new StringBuffer();
-        for (int i = 0; i < bByte.length; i++) {
+        for(int i = 0; i<bByte.length; i++){
             sBuffer.append(byteToArrayString(bByte[i]));
         }
         return sBuffer.toString();
     }
 
-    public static String GetMD5Code(String strObj) {
+    public static String GetMD5Code(String strObj){
         String resultString = null;
-        try {
+        try{
             resultString = new String(strObj);
             MessageDigest md = MessageDigest.getInstance("MD5");
-            // md.digest() ¸Ãº¯Êý·µ»ØÖµÎª´æ·Å¹þÏ£Öµ½á¹ûµÄbyteÊý×é
+            // md.digest() ï¿½Ãºï¿½ï¿½ï¿½ï¿½ÖµÎªï¿½ï¿½Å¹ï¿½Ï£Öµï¿½ï¿½ï¿½ï¿½byteï¿½ï¿½ï¿½ï¿½
             resultString = byteToString(md.digest(strObj.getBytes()));
-        } catch (NoSuchAlgorithmException ex) {
+        }
+		catch(NoSuchAlgorithmException ex){
             ex.printStackTrace();
         }
         return resultString;
+    }
+	
+	public static String GetMD5Code(String strObj,int time){
+        for(int i=0;i<time;i++){
+			strObj = GetMD5Code(strObj);
+		}
+		return strObj;
     }
 }
