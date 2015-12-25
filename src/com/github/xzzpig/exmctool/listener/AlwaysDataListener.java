@@ -11,15 +11,31 @@ import java.util.*;
 
 import org.bukkit.*;
 import org.bukkit.event.*;
+import org.bukkit.util.FileUtil;
 
 public class AlwaysDataListener implements Listener
 {
-	private static File log,dir = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log");
-	private static String day;
+	private static File 
+	log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/latest.log"),
+	dir = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log");
+	//private static String day;
 	private static FileOutputStream fout;
-	private static DateFormat date = new SimpleDateFormat("yyyy_MM_dd");
+	private static DateFormat date = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+	private boolean first = true;
 	static{
-		dir.mkdirs();
+		try{
+			dir.mkdirs();
+			if(log.exists()){
+				File tempf = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/"+date.format(new Date())+".log");
+				FileUtil.copy(log,tempf);
+				log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/latest.log");
+				log.delete();
+				log.createNewFile();
+			}
+			else log.createNewFile();
+			fout = new  FileOutputStream(log,false);
+		}
+		catch(Exception e){e.printStackTrace();}
 	}
 	@EventHandler
 	public void onGetType(DataReachEvent event){
@@ -29,7 +45,7 @@ public class AlwaysDataListener implements Listener
 		event.getClient().setType(ClientType.valueOf(data[1]));
 		System.out.println("[ExMCTool]"+event.getClient().getSocket().getRemoteSocketAddress()+"的类型设为"+data[1]);
 	}
-	
+
 	@EventHandler
 	public void onGetName(PlayerDataReachEvent event){
 		String[] data = event.getStringData().split(" ");
@@ -61,14 +77,15 @@ public class AlwaysDataListener implements Listener
 		}
 		TConfig.saveConfig("ExMCTool","login.yml","login.password."+client.getName(),client.password);
 	}
-	
+
 	@EventHandler
 	public void onPrintLog(LogPrintEvent event){
-		if (event.getMessage().contains("********")) {
+		if(event.getMessage().contains("********")){
 			return;
 		}
+		/*
 		String today = date.format(new Date());
-		if(day == null||!day.equalsIgnoreCase(today)){
+		if(day==null||!day.equalsIgnoreCase(today)){
 			day = today;
 			log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/"+day+".log");
 			try{
@@ -85,12 +102,20 @@ public class AlwaysDataListener implements Listener
 			}
 			catch(FileNotFoundException e){e.printStackTrace();}
 		}
-		//Debuger.print("logevent:"+event.getTime()+"|"+event.getLevel()+"|"+event.getMessage());
+		*/
 		try{
-			//Debuger.print(""+log.isFile()+log.isDirectory()+log.exists()+log.getCanonicalPath());
 			fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
 			fout.flush();
+			if(first){
+				fout.close();
+				fout = new  FileOutputStream(log,true);
+				first = false;
+			}
 		}
-		catch(IOException e){e.printStackTrace();}
+		catch(Exception e){e.printStackTrace();}
+		for(Client c:Client.clients)
+			if(c.isAcceptLog())
+				c.sendData((event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
+
 	}
 }
