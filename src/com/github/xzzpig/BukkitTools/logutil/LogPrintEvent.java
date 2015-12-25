@@ -1,4 +1,4 @@
-package com.github.xzzpig.exmctool.event;
+package com.github.xzzpig.BukkitTools.logutil;
 
 import org.bukkit.event.*;
 

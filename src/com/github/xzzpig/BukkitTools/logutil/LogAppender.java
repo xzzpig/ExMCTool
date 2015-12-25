@@ -1,8 +1,8 @@
-package com.github.xzzpig.exmctool.logutil;
+package com.github.xzzpig.BukkitTools.logutil;
 
-import com.github.xzzpig.exmctool.event.*;
 import java.io.*;
 import java.text.*;
+
 import org.apache.logging.log4j.core.*;
 import org.apache.logging.log4j.core.appender.*;
 import org.bukkit.*;

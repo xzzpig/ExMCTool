@@ -1,4 +1,4 @@
-package com.github.xzzpig.exmctool.logutil;
+package com.github.xzzpig.BukkitTools.logutil;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;

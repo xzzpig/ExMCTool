@@ -4,8 +4,8 @@ import java.util.logging.Level;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.github.xzzpig.BukkitTools.logutil.*;
 import com.github.xzzpig.exmctool.listener.*;
-import com.github.xzzpig.exmctool.logutil.*;
 
 public class Main extends JavaPlugin
 {

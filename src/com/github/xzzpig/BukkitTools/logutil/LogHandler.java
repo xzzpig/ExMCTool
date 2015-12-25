@@ -1,10 +1,9 @@
-package com.github.xzzpig.exmctool.logutil;
+package com.github.xzzpig.BukkitTools.logutil;
 
 import java.text.*;
 import java.util.logging.*;
 
 import org.bukkit.*;
-import com.github.xzzpig.exmctool.event.*;
 
 public class LogHandler extends Handler
 {

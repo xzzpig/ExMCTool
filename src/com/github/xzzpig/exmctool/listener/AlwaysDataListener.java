@@ -1,11 +1,14 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.BukkitTools.*;
+import com.github.xzzpig.BukkitTools.logutil.LogPrintEvent;
 import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
+
 import java.io.*;
 import java.text.*;
 import java.util.*;
+
 import org.bukkit.*;
 import org.bukkit.event.*;
 
@@ -61,10 +64,13 @@ public class AlwaysDataListener implements Listener
 	
 	@EventHandler
 	public void onPrintLog(LogPrintEvent event){
+		if (event.getMessage().contains("********")) {
+			return;
+		}
 		String today = date.format(new Date());
 		if(day == null||!day.equalsIgnoreCase(today)){
 			day = today;
-			log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/chat/"+day+".log");
+			log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/"+day+".log");
 			try{
 				log.createNewFile();
 			}
@@ -77,12 +83,14 @@ public class AlwaysDataListener implements Listener
 			try{
 				fout = new  FileOutputStream(log,true);
 			}
-			catch(FileNotFoundException e){}
-			try{
-				fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
-				fout.flush();
-			}
-			catch(IOException e){}
+			catch(FileNotFoundException e){e.printStackTrace();}
 		}
+		//Debuger.print("logevent:"+event.getTime()+"|"+event.getLevel()+"|"+event.getMessage());
+		try{
+			//Debuger.print(""+log.isFile()+log.isDirectory()+log.exists()+log.getCanonicalPath());
+			fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
+			fout.flush();
+		}
+		catch(IOException e){e.printStackTrace();}
 	}
 }
