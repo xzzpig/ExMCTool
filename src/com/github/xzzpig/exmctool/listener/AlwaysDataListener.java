@@ -79,7 +79,7 @@ public class AlwaysDataListener implements Listener
 			}
 			catch(FileNotFoundException e){}
 			try{
-				fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")+" "+event.getThrowa().getMessage()).getBytes());
+				fout.write(("\n"+event.getTime()+" ["+event.getLevel()+" ] "+event.getMessage().replaceAll(" ","_")).getBytes());
 				fout.flush();
 			}
 			catch(IOException e){}

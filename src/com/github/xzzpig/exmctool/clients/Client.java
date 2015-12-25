@@ -97,7 +97,7 @@ public class Client
 	public void sendData(byte[] data){
 		try{
 			s.getOutputStream().write(data);
-			Thread.sleep(5);
+			s.getOutputStream().write(new byte[]{1,1,1,1});
 		}
 		catch(Exception e){
 			this.remove();

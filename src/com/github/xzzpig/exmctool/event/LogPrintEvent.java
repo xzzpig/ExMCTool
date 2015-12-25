@@ -1,7 +1,6 @@
 package com.github.xzzpig.exmctool.event;
 
 import org.bukkit.event.*;
-import java.util.logging.*;
 
 public class LogPrintEvent extends Event
 {

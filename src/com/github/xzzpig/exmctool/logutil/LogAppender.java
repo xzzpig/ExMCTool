@@ -1,6 +1,5 @@
 package com.github.xzzpig.exmctool.logutil;
 
-import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
 import java.io.*;
 import java.text.*;
@@ -35,8 +34,6 @@ extends AbstractAppender
 			ex.printStackTrace(new PrintWriter(writer));
 			builder.append(writer);
 		}
-		for(Client c :Client.clients)
-			c.sendData(builder.toString().getBytes());	
 		Bukkit.getPluginManager().callEvent(new LogPrintEvent(this.date.format(Long.valueOf(event.getMillis())),event.getLevel().name(),event.getMessage().getFormattedMessage(),event.getThrown()));
 		
 	}

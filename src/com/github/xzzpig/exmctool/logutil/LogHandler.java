@@ -3,7 +3,6 @@ package com.github.xzzpig.exmctool.logutil;
 import java.text.*;
 import java.util.logging.*;
 
-import com.github.xzzpig.exmctool.clients.Client;
 import org.bukkit.*;
 import com.github.xzzpig.exmctool.event.*;
 

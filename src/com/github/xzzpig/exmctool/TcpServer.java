@@ -23,7 +23,7 @@ public class TcpServer implements Runnable{
 		System.out.println("[ExMCTool]TCP服务端("+port+")已启动");
 		while(true){
 			Socket s = null;
-			try {s = ss.accept();} catch (IOException e) {}
+			try {s = ss.accept();s.setTcpNoDelay(true);} catch (IOException e) {}
 			System.out.println("[ExMCTool]客户端"+s.getInetAddress().getHostName()+"已连入");
 			new Client(s);
 			}
