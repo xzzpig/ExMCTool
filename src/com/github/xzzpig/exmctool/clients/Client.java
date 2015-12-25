@@ -55,7 +55,7 @@ public class Client
 					catch(InterruptedException e){e.printStackTrace();}
 					if(types.size()==1){
 						types.add(ClientType.Unknown);
-						System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+ClientType.Unknown+self);
+						System.out.println("[ExMCTool]"+s.getRemoteSocketAddress()+"的类型设为"+ClientType.Unknown);
 					}
 				}
 			}).start();
