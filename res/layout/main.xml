@@ -23,7 +23,8 @@
 			android:layout_height="wrap_content"
 			android:text="添加服务器"
 			android:layout_width="wrap_content"
-			android:id="@+id/Button_addserver"/>
+			android:id="@+id/Button_addserver"
+			android:onClick="onASButtonClick"/>
 
 	</LinearLayout>
 
@@ -68,7 +69,8 @@
 			android:layout_width="match_parent"
 			android:id="@+id/EditText_psw"
 			android:hint="密码"
-			android:lines="1"/>
+			android:lines="1"
+			android:layout_marginLeft="22dp"/>
 
 	</LinearLayout>
 

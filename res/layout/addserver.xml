@@ -1,6 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-    
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	android:gravity="center">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:text="服务器ip:"
+			android:layout_width="wrap_content"
+			android:textSize="24sp"
+			android:layout_marginLeft="10dp"/>
+
+		<EditText
+			android:layout_height="wrap_content"
+			android:inputType="textPostalAddress"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:layout_marginLeft="5dp"
+			android:id="@+id/EditText_ip"
+			android:hint="服务器ip"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:text="插件端口:"
+			android:layout_width="wrap_content"
+			android:textSize="24sp"
+			android:layout_marginLeft="10dp"/>
+
+		<EditText
+			android:layout_height="wrap_content"
+			android:inputType="number"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:id="@+id/EditText_port"
+			android:hint="端口(默认10727)"/>
+
+	</LinearLayout>
+
+	<Button
+		android:layout_height="wrap_content"
+		android:text="添加服务器"
+		android:layout_width="wrap_content"
+		android:id="@+id/Button_addserver2"/>
+
 </LinearLayout>
+
