@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal"
+		android:gravity="center">
+
+		<Spinner
+			android:layout_height="40dp"
+			android:layout_width="match_parent"
+			android:id="@+id/Spinner_server"
+			android:layout_weight="1.0"
+			android:layout_marginLeft="10dp"/>
+
+		<Button
+			android:layout_height="wrap_content"
+			android:text="添加服务器"
+			android:layout_width="wrap_content"
+			android:id="@+id/Button_addserver"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:text="游戏ID:"
+			android:layout_width="wrap_content"
+			android:textSize="24sp"
+			android:layout_marginLeft="10dp"/>
+
+		<EditText
+			android:layout_height="wrap_content"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:id="@+id/EditText_id"
+			android:hint="ID"
+			android:lines="1"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<TextView
+			android:layout_height="match_parent"
+			android:text="密码:"
+			android:layout_width="wrap_content"
+			android:textSize="24sp"
+			android:layout_marginLeft="10dp"/>
+
+		<EditText
+			android:layout_height="wrap_content"
+			android:inputType="textPassword"
+			android:ems="10"
+			android:layout_width="match_parent"
+			android:id="@+id/EditText_psw"
+			android:hint="密码"
+			android:lines="1"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="20dp"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<CheckBox
+			android:layout_height="match_parent"
+			android:layout_width="match_parent"
+			android:text="记住登录信息"
+			android:layout_marginLeft="30dp"
+			android:id="@+id/CheckBox_spw"
+			android:onClick="onCKClick"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:orientation="horizontal">
+
+		<Button
+			android:layout_height="wrap_content"
+			android:text="登录"
+			android:layout_width="wrap_content"
+			android:onClick="onBLClick"
+			android:id="@+id/Button_login"/>
+
+	</LinearLayout>
+
+</LinearLayout>
+

@@ -1,9 +1,0 @@
-# 该插件由 幻猪(Mg_P) 制作
-port: 10727
-adminkey: madebyhz
-loginkey: madebyhz
-logkey: madybyhz
-enable:
-  loginexam: true
-  chat: true
-  log: true
