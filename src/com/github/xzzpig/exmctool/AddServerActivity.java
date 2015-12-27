@@ -6,6 +6,7 @@ import android.view.View.*;
 import android.widget.*;
 import com.github.xzzpig.utils.*;
 import android.content.*;
+import java.util.*;
 
 public class AddServerActivity extends Activity
 {
@@ -27,9 +28,10 @@ public class AddServerActivity extends Activity
 					}
 					Vars.servers.add(ip+":"+port);
 					
-					ObjectFile.save("servers",getFilesDir().getAbsolutePath(),Vars.servers);try{
-						((Spinner)findViewById(R.id.Spinner_server)).setSelection(0);}catch(Exception e){System.out.println(e);}
-					//Toast.makeText(MainActivity.self,"服务器已保存\n长按选项卡删除服务器",Toast.LENGTH_LONG).show();
+					ObjectFile.save("servers",getFilesDir().getAbsolutePath(),Vars.servers);
+					if(Vars.servers.size() == 1)
+						((Spinner)findViewById(R.id.Spinner_server)).setSelection(0);
+					Toast.makeText(MainActivity.self,"服务器已保存\n长按选项卡删除服务器",Toast.LENGTH_LONG).show();
 					onBackPressed();
 				}
 		});

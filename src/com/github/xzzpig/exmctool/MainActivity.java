@@ -19,7 +19,8 @@ public class MainActivity extends Activity
 		self = this;
         setContentView(R.layout.main);
 		Object ob = ObjectFile.load("servers",getFilesDir().getAbsolutePath());
-		if(ob != null&&(ob instanceof List))
+		System.out.println(ob);
+		if(ob != null&&(ob instanceof List)&&((List)ob).size() !=0)
 			Vars.servers = (List)ob;
 		else{
 			Intent intent = new Intent();
@@ -43,13 +44,25 @@ public class MainActivity extends Activity
 					return true;
 				}
 		});
-		//((Spinner)findViewById(R.id.Spinner_server)).setAdapter();
+		SharedPreferences data = this.getSharedPreferences("DATA",MODE_PRIVATE);
+		boolean autosave = data.getBoolean("autosave",false);
+		System.out.println(autosave);
+		if(autosave){
+			((CheckBox)this.findViewById(R.id.CheckBox_spw)).setChecked(true);
+			((TextView)this.findViewById(R.id.EditText_ip)).setText(data.getString("ip",""));
+			((TextView)this.findViewById(R.id.EditText_psw)).setText(data.getString("password",""));
+			((TextView)this.findViewById(R.id.EditText_port)).setText(data.getInt("port",0)+"");
+		}
     }
 	
 	public void onASButtonClick(View view){
 		Intent intent = new Intent();
 		intent.setClass(MainActivity.this,AddServerActivity.class);
 		startActivity(intent);
-		System.out.println("changesuccess");
+	}
+	
+	public void onCKClick(View view){
+		SharedPreferences data = this.getSharedPreferences("DATA",MODE_PRIVATE);
+		data.edit().putBoolean("autosave",((CheckBox)this.findViewById(R.id.CheckBox_spw)).isChecked()).apply();
 	}
 }

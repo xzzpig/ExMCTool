@@ -9,17 +9,18 @@ public class ObjectFile
 		try{
 			if(!file.exists())
 				file.createNewFile();
-		}catch(IOException e){return;}
+		}catch(IOException e){System.out.println(e);return;}
 		try{
-			FileOutputStream fout=new FileOutputStream(file,true);
+			FileOutputStream fout=new FileOutputStream(file);
 			ObjectOutputStream out = new ObjectOutputStream(fout);
 			out.writeObject(object);
 			out.flush();
 			out.close();
 			fout.flush();
 			fout.close();
+			System.out.println(name+"文件已保存");
 		}
-		catch(Exception e){e.printStackTrace();}
+		catch(Exception e){System.out.println(e);}
 	}
 	public static Object load(String name,String path){
 		if(!(path.endsWith("/")||path.endsWith("\\")))
