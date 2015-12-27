@@ -2,17 +2,24 @@ package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.BukkitTools.logutil.*;
 import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
+
 import java.io.*;
 import java.text.*;
 import java.util.*;
+
 import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.util.*;
+
 import com.github.xzzpig.BukkitTools.*;
 import com.github.xzzpig.exmctool.*;
 
 public class LogListener implements Listener
 {
+	{
+		System.out.println("[ExMCTool]LOG记录已开启");
+	}
+	
 	private static File 
 	log = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log/latest.log"),
 	dir = new File(Bukkit.getPluginManager().getPlugin("ExMCTool").getDataFolder()+"/log");
@@ -58,6 +65,7 @@ public class LogListener implements Listener
 	@EventHandler
 	public void onAskLog(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
+		Debuger.print(Arrays.toString(data));
 		if(!data[0].equalsIgnoreCase("getlog"))
 			return;
 		Client client = event.getClient();
@@ -90,7 +98,7 @@ public class LogListener implements Listener
 	@EventHandler
 	public void onChangeLogState(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		if(data.length!=4||!data[0].equalsIgnoreCase("changelogstate"))
+		if(!data[0].equalsIgnoreCase("changelogstate"))
 			return;
 		Client client = event.getClient();
 		if(!data[1].equalsIgnoreCase(MD5.GetMD5Code(Vars.logkey))){

@@ -5,26 +5,28 @@ import com.github.xzzpig.exmctool.event.*;
 import org.bukkit.*;
 import org.bukkit.event.*;
 import org.bukkit.event.player.*;
-import org.bukkit.event.player.AsyncPlayerPreLoginEvent.Result;
+import org.bukkit.event.player.PlayerLoginEvent.Result;
 
 import com.github.xzzpig.exmctool.*;
 
 public class LoginListener implements Listener
 {
+	{
+		System.out.println("[ExMCTool]登录验证已开启");
+	}
 	
 	@EventHandler
-	public void onPreLogin(AsyncPlayerPreLoginEvent event){
-		Client_Player client = Client_Player.valueOf(event.getName());
+	public void onPreLogin(PlayerLoginEvent event){
+		System.out.println("AsyncPlayerPreLoginEvent");
+		Client_Player client = Client_Player.valueOf(event.getPlayer().getName());
 		if(client == null){
-			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.NoClient);
-			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.NoClient);
+			System.out.println("[ExMCTool]"+event.getPlayer().getName()+"验证失败,原因:"+LoginError.NoClient);
 			return;
 		}
 		if(!client.getSocket().getInetAddress().getHostAddress().equalsIgnoreCase(event.getAddress().getHostAddress())){
-			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+LoginError.DifferentAddress);
-			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+LoginError.DifferentAddress);
+			System.out.println("[ExMCTool]"+event.getPlayer().getName()+"验证失败,原因:"+LoginError.DifferentAddress);
 			client.sendData("login deny".getBytes());
 			return;
 		}
@@ -33,9 +35,8 @@ public class LoginListener implements Listener
 		if(error == null)
 			event.allow();
 		else{
-			event.getLoginResult();
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+error);
-			System.out.println("[ExMCTool]"+event.getName()+"验证失败,原因:"+error);
+			System.out.println("[ExMCTool]"+event.getPlayer().getName()+"验证失败,原因:"+error);
 			client.sendData("login pass".getBytes());
 		}
 	}

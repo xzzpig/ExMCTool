@@ -14,6 +14,10 @@ import com.github.xzzpig.exmctool.clients.*;
 
 public class ChatListener implements Listener
 {
+	{
+		System.out.println("[ExMCTool]远程聊天已开启");
+	}
+	
 	public static List<String> chats = new ArrayList<String>();
 
 	@SuppressWarnings("deprecation")

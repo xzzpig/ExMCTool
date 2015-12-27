@@ -38,7 +38,7 @@ public class Client_Player extends Client
 	}
 	public static Client_Player valueOf(String player){
 		for(Client c:clients){
-			if(!(c.types.contains(ClientType.Player)))
+			if(!(c instanceof Client_Player))
 				continue;
 			if(((Client_Player)c).getName().equalsIgnoreCase(player))
 				return (Client_Player)c;
