@@ -99,6 +99,7 @@ public class LogListener implements Listener
 		}
 		try{
 			client.setAcceptLog(Boolean.valueOf(data[2]));
+			event.getClient().sendData("changelogstate result success".getBytes());
 			System.out.println("[ExMCTool]"+client.getPossibleName()+"更改log状态为:"+data[2]);
 		}catch(Exception e){}
 	}

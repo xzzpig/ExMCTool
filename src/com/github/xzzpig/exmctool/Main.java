@@ -1,7 +1,5 @@
 package com.github.xzzpig.exmctool;
 
-import java.util.logging.Level;
-
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.xzzpig.BukkitTools.logutil.*;

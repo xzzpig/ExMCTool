@@ -1,17 +1,10 @@
 package com.github.xzzpig.exmctool.listener;
 import com.github.xzzpig.BukkitTools.*;
-import com.github.xzzpig.BukkitTools.logutil.LogPrintEvent;
 import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
 
-import java.io.*;
-import java.text.*;
-import java.util.*;
-
-import org.bukkit.*;
 import org.bukkit.event.*;
-import org.bukkit.util.FileUtil;
 
 public class AlwaysDataListener implements Listener
 {
