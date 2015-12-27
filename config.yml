@@ -7,3 +7,4 @@ enable:
   loginexam: true
   chat: true
   log: true
+  app: true

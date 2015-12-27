@@ -12,4 +12,7 @@ public class Vars
 	public static boolean enable_loginexam = TConfig.getConfigFile("ExMCTool","config.yml").getBoolean("enable.loginexam",true);
 	public static boolean enable_chat = TConfig.getConfigFile("ExMCTool","config.yml").getBoolean("enable.chat",true);
 	public static boolean enable_log = TConfig.getConfigFile("ExMCTool","config.yml").getBoolean("enable.log",true);
+	public static boolean enable_app = TConfig.getConfigFile("ExMCTool","config.yml").getBoolean("enable.app",true);
+	
+	
 }

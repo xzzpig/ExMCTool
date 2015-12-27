@@ -3,6 +3,7 @@ package com.github.xzzpig.exmctool.event;
 import org.bukkit.event.*;
 
 import com.github.xzzpig.exmctool.clients.Client;
+import com.github.xzzpig.exmctool.clients.*;
 
 public class DataReachEvent extends Event
 {
@@ -25,6 +26,12 @@ public class DataReachEvent extends Event
 	
 	public Client getClient(){
 		return client;
+	}
+	public Client getBasicClient(){
+		for(Client c:Client.clients)
+			if(c.isType(ClientType.Basic))
+				return c;
+		return null;
 	}
 	
 	public HandlerList getHandlers() {

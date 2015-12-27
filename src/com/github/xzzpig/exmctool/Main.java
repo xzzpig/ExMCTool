@@ -23,8 +23,8 @@ public class Main extends JavaPlugin
 			LogRedirectWithLog4j.startRedirectConsoleLog(this);
 			getServer().getPluginManager().registerEvents(new LogListener(),this);
 		}
-
-
+		if(Vars.enable_app)
+			getServer().getPluginManager().registerEvents(new AppListener(),this);
 	}
 
 	@SuppressWarnings("deprecation")

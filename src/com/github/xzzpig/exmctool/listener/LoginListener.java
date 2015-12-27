@@ -37,8 +37,10 @@ public class LoginListener implements Listener
 		else{
 			event.disallow(Result.KICK_OTHER,"[ExMCTool]验证失败\nReason:"+error);
 			System.out.println("[ExMCTool]"+event.getPlayer().getName()+"验证失败,原因:"+error);
-			client.sendData("login pass".getBytes());
+			client.sendData("login deny".getBytes());
+			return;
 		}
+		client.sendData("login pass".getBytes());
 	}
 	
 	@SuppressWarnings("deprecation")
