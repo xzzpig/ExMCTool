@@ -76,25 +76,37 @@ public class MainActivity extends Activity
 			data.edit().putInt("address",((Spinner)findViewById(R.id.Spinner_server)).getSelectedItemPosition());
 		}
 		
-		Client client = new Client(ip,port,id,pass);
+		final Client client = new Client(ip,port,id,pass);
+		Vars.logindialog =ProgressDialog.show(this, "登录", "登录中。。。");
 		client.start();
-		Thread outdata = new Thread(new Runnable(){
+		final Thread outdata = new Thread(new Runnable(){
 				@Override
 				public void run(){
 					try{
 						Thread.sleep(5000);
+						if(Vars.logindialog.isShowing())
+							Vars.logindialog.cancel();
 					}
 					catch(InterruptedException e){}
 				}
 			});
 		outdata.start();
-		ProgressDialog dialog =ProgressDialog.show(MainActivity.self, "登录", "");
+		Vars.logindialog.setOnCancelListener(new ProgressDialog.OnCancelListener(){
+				@Override
+				public void onCancel(DialogInterface p1){
+					String result = client.result;
+					if(!outdata.isAlive())
+						result = "登录超时";
+					Toast.makeText(MainActivity.this,result,0).show();
+				}
+			});
+		/*
 		while(client.isAlive()&&outdata.isAlive()){}
 		String result = client.result;
 		dialog.cancel();
 		if(!outdata.isAlive())
 			result = "登录超时";
-		Toast.makeText(this,result,0).show();
+		Toast.makeText(this,result,0).show();*/
 	}
 	public void onCKClick(View view){
 		SharedPreferences data = this.getSharedPreferences("DATA",MODE_PRIVATE);

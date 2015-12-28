@@ -29,34 +29,32 @@ public class Client extends Thread
 
 	@Override
 	public void run(){
-		/*
-		Looper.prepare();
-		
-		Looper.loop();
-		*/
 		if(id.equalsIgnoreCase("")||password.equalsIgnoreCase("")){
 			result = "账号密码不能为空";
+			dialogCancel();
 			return;
 		}
-		//dialog.setMessage("开始尝试连接服务器插件");
+		Vars.logindialog.setMessage("开始尝试连接服务器插件");
 		InetAddress add = null;
 		try{
 			add = InetAddress.getByName(ip);
 		}
 		catch(Exception e){
 			result ="无法获取IP";
+			dialogCancel();
 			return;
 		}
-		//dialog.setMessage("开始尝试连接服务器插件\nIP获取成功");
+		Vars.logindialog.setMessage("开始尝试连接服务器插件\nIP获取成功");
 		try{
 			socket = new Socket(add,port);
 		}
 		catch(Exception e){
 			result ="连接服务器插件失败";
+			dialogCancel();
 			return;
 		}
 		readdata();
-		//dialog.setMessage("成功连接服务器插件\n开始验证账号密码");
+		Vars.logindialog.setMessage("成功连接服务器插件\n开始验证账号密码");
 		
 		try{
 			//String id = ((TextView)MainActivity.self.findViewById(R.id.EditText_id)).getText().toString();
@@ -71,9 +69,11 @@ public class Client extends Thread
 			String ret = new String(askAnswer());
 			if(ret.equalsIgnoreCase("login pass")){
 				result = "成功";
+				dialogCancel();
 				return;
 			}
 			result = "密码错误";
+			dialogCancel();
 		}
 		catch(Exception e){}
 	}
@@ -84,6 +84,10 @@ public class Client extends Thread
 	public byte[] askAnswer(){
 		while(ask){}
 		return data;
+	}
+	
+	private void dialogCancel(){
+		Vars.logindialog.cancel();
 	}
 	
 	protected void readdata(){
