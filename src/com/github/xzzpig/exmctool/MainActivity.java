@@ -49,9 +49,9 @@ public class MainActivity extends Activity
 		System.out.println(autosave);
 		if(autosave){
 			((CheckBox)this.findViewById(R.id.CheckBox_spw)).setChecked(true);
-			((TextView)this.findViewById(R.id.EditText_ip)).setText(data.getString("ip",""));
+			((TextView)this.findViewById(R.id.EditText_id)).setText(data.getString("id",""));
 			((TextView)this.findViewById(R.id.EditText_psw)).setText(data.getString("password",""));
-			((TextView)this.findViewById(R.id.EditText_port)).setText(data.getInt("port",0)+"");
+			spinner.setSelection((data.getInt("address",0)));
 		}
     }
 	
@@ -60,7 +60,42 @@ public class MainActivity extends Activity
 		intent.setClass(MainActivity.this,AddServerActivity.class);
 		startActivity(intent);
 	}
-	
+	public void onBLClick(View view){
+		String add,ip,id,pass;
+		int port;
+		add = (String) ((Spinner)findViewById(R.id.Spinner_server)).getSelectedItem();
+		ip = add.split(":")[0];
+		port = Integer.valueOf(add.split(":")[1]);
+		id = ((TextView)findViewById(R.id.EditText_id)).getText().toString();
+		pass = ((TextView)findViewById(R.id.EditText_psw)).getText().toString();
+		
+		if(((CheckBox)findViewById(R.id.CheckBox_spw)).isChecked()){
+			SharedPreferences data = getSharedPreferences("DATA",MODE_PRIVATE);
+			data.edit().putString("id",id).apply();
+			data.edit().putString("password",pass).apply();
+			data.edit().putInt("address",((Spinner)findViewById(R.id.Spinner_server)).getSelectedItemPosition());
+		}
+		
+		Client client = new Client(ip,port,id,pass);
+		client.start();
+		Thread outdata = new Thread(new Runnable(){
+				@Override
+				public void run(){
+					try{
+						Thread.sleep(5000);
+					}
+					catch(InterruptedException e){}
+				}
+			});
+		outdata.start();
+		ProgressDialog dialog =ProgressDialog.show(MainActivity.self, "登录", "");
+		while(client.isAlive()&&outdata.isAlive()){}
+		String result = client.result;
+		dialog.cancel();
+		if(!outdata.isAlive())
+			result = "登录超时";
+		Toast.makeText(this,result,0).show();
+	}
 	public void onCKClick(View view){
 		SharedPreferences data = this.getSharedPreferences("DATA",MODE_PRIVATE);
 		data.edit().putBoolean("autosave",((CheckBox)this.findViewById(R.id.CheckBox_spw)).isChecked()).apply();
