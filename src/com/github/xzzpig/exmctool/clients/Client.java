@@ -50,7 +50,7 @@ public class Client
 				@Override
 				public void run(){
 					try{
-						Thread.sleep(1000);
+						Thread.sleep(5000);
 					}
 					catch(InterruptedException e){e.printStackTrace();}
 					if(types.size()==1){
@@ -123,26 +123,26 @@ public class Client
 						int length = 0;
 						try{
 							length = s.getInputStream().read(buf);
-						}
-						catch(IOException e){}
-						try{
 							data = Arrays.copyOf(buf,length);
-							Bukkit.getPluginManager().callEvent(new DataReachEvent(self,data));
-							for(ClientType cy:ClientType.values()){
-								if(subclient.containsKey(cy)){
-									Client cli = subclient.get(cy);
-									cli.data = data;
-									cli.readdata();
+							for(String d : new String(data).split("###")){
+								Bukkit.getPluginManager().callEvent(new DataReachEvent(self,d.getBytes()));
+								for(ClientType cy:ClientType.values()){
+									if(subclient.containsKey(cy)){
+										Client cli = subclient.get(cy);
+										cli.data = d.getBytes();
+										cli.readdata();
+									}
 								}
 							}
 						}
-						catch(Exception e){Client.removeUnConnect();}
+						catch(Exception e){Client.removeUnConnect();return;}
 					}
 				}
 			}).start();
 	}
 
 	public void remove(){
+		System.out.println("[ExMCTool]客户端"+getPossibleName()+"已移除");
 		clients.remove(this);
 		read = false;
 		for(Client cli:subclient.keySet().toArray(new Client[0])){

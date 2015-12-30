@@ -13,7 +13,7 @@ public class Client_App extends Client
 	
 	public Client_App(){}
 	public Client_App(Client client){
-		super(ClientType.Player,client);
+		super(ClientType.App,client);
 		superc = client;
 		cp = new Client_Player(superc);
 		cp.startLoginExam();

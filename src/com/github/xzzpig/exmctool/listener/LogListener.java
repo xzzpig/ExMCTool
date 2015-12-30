@@ -65,7 +65,6 @@ public class LogListener implements Listener
 	@EventHandler
 	public void onAskLog(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
-		Debuger.print(Arrays.toString(data));
 		if(!data[0].equalsIgnoreCase("getlog"))
 			return;
 		Client client = event.getClient();
