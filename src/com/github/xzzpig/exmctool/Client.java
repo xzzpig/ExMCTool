@@ -1,9 +1,8 @@
 package com.github.xzzpig.exmctool;
-import android.app.*;
 import android.os.*;
-import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.event.*;
 import com.github.xzzpig.exmctool.extevent.*;
+import com.github.xzzpig.utils.*;
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -53,29 +52,49 @@ public class Client extends Thread
 			dialogCancel();
 			return;
 		}
-		readdata();
 		Vars.logindialog.setMessage("成功连接服务器插件\n开始验证账号密码");
 		
 		try{
 			//String id = ((TextView)MainActivity.self.findViewById(R.id.EditText_id)).getText().toString();
 			//String password = ((TextView)MainActivity.self.findViewById(R.id.EditText_psw)).getText().toString();
-			socket.getOutputStream().write("type App".getBytes());
-			socket.getOutputStream().write(("player "+id).getBytes());
-			Thread.sleep(100);
-			socket.getOutputStream().write(("login player "+id).getBytes());
-			socket.getOutputStream().write(("login paasword "+password).getBytes());
 			askPerpare();
-			socket.getOutputStream().write(("canlogin"+password).getBytes());
-			String ret = new String(askAnswer());
-			if(ret.equalsIgnoreCase("login pass")){
+			String loginmessage = 
+				"type App"+
+				"###name "+id+
+				"###login player "+MD5.GetMD5Code(id)+
+				"###login password "+MD5.GetMD5Code(password)+
+				"###canlogin";
+			socket.getOutputStream().write(loginmessage.getBytes());
+			socket.getOutputStream().flush();
+			/*
+			socket.getOutputStream().write("###".getBytes());
+			socket.getOutputStream().write(("player "+id).getBytes());
+			socket.getOutputStream().write("###".getBytes());
+			socket.getOutputStream().write(("login player "+MD5.GetMD5Code(id)).getBytes());
+			socket.getOutputStream().write("###".getBytes());
+			socket.getOutputStream().write(("login paasword "+MD5.GetMD5Code(password)).getBytes());
+			socket.getOutputStream().write("###".getBytes());
+			*/
+//			Thread.sleep(1000);
+//			askPerpare();
+//			socket.getOutputStream().write(("canlogin").getBytes());
+			String ret="";
+			while((!ret.contains("login deny")&&(!ret.contains("login pass")))){
+				ret = new String(read());
+				System.out.println("ret:"+ret);
+			}
+			if(ret.contains("login pass")){
 				result = "成功";
+				readdata();
 				dialogCancel();
 				return;
 			}
 			result = "密码错误";
 			dialogCancel();
 		}
-		catch(Exception e){}
+		catch(Exception e){
+			System.out.println("数据错误"+e);
+		}
 	}
 	
 	public void askPerpare(){
@@ -95,8 +114,9 @@ public class Client extends Thread
 				@Override
 				public void run(){
 					while(read){
+						System.out.println("new loop");
 						if(socket.isClosed()){
-							self = null;
+							System.out.println("服务端已关闭");
 							return;
 						}
 						byte[] buf = new byte[1024*1024];
@@ -104,7 +124,7 @@ public class Client extends Thread
 						try{
 							length = socket.getInputStream().read(buf);
 						}
-						catch(IOException e){}
+						catch(IOException e){System.out.println("接受数据错误"+e);}
 						try{
 							data = Arrays.copyOf(buf,length);
 							Looper.prepare();
@@ -115,9 +135,23 @@ public class Client extends Thread
 							Looper.loop();
 							if(ask)ask=false;
 						}
-						catch(Exception e){self =null;return;}
+						catch(Exception e){System.out.println("接受数据错误"+e);return;}
 					}
 				}
 			}).start();
+	}
+	
+	private byte[] read(){
+		byte[] buf = new byte[1024*1024];
+		int length = 0;
+		try{
+			length = socket.getInputStream().read(buf);
+		}
+		catch(IOException e){System.out.println("接受数据错误"+e);}
+		try{
+			data = Arrays.copyOf(buf,length);
+			return data;
+		}catch(Exception e){}
+		return null;
 	}
 }

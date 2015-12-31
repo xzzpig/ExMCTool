@@ -19,7 +19,6 @@ public class MainActivity extends Activity
 		self = this;
         setContentView(R.layout.main);
 		Object ob = ObjectFile.load("servers",getFilesDir().getAbsolutePath());
-		System.out.println(ob);
 		if(ob != null&&(ob instanceof List)&&((List)ob).size() !=0)
 			Vars.servers = (List)ob;
 		else{
@@ -46,7 +45,6 @@ public class MainActivity extends Activity
 		});
 		SharedPreferences data = this.getSharedPreferences("DATA",MODE_PRIVATE);
 		boolean autosave = data.getBoolean("autosave",false);
-		System.out.println(autosave);
 		if(autosave){
 			((CheckBox)this.findViewById(R.id.CheckBox_spw)).setChecked(true);
 			((TextView)this.findViewById(R.id.EditText_id)).setText(data.getString("id",""));
@@ -75,6 +73,9 @@ public class MainActivity extends Activity
 			data.edit().putString("password",pass).apply();
 			data.edit().putInt("address",((Spinner)findViewById(R.id.Spinner_server)).getSelectedItemPosition());
 		}
+		if(Client.self != null){
+			Client.self.read = false;
+		}
 		
 		final Client client = new Client(ip,port,id,pass);
 		Vars.logindialog =ProgressDialog.show(this, "登录", "登录中。。。");
@@ -83,7 +84,7 @@ public class MainActivity extends Activity
 				@Override
 				public void run(){
 					try{
-						Thread.sleep(5000);
+						Thread.sleep(10000);
 						if(Vars.logindialog.isShowing())
 							Vars.logindialog.cancel();
 					}
