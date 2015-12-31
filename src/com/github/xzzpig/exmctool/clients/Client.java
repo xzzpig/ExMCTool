@@ -5,6 +5,7 @@ import java.io.*;
 
 import org.bukkit.*;
 
+import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.event.*;
 
 public class Client
@@ -125,6 +126,7 @@ public class Client
 							length = s.getInputStream().read(buf);
 							data = Arrays.copyOf(buf,length);
 							for(String d : new String(data).split("###")){
+								Debuger.print(d);
 								Bukkit.getPluginManager().callEvent(new DataReachEvent(self,d.getBytes()));
 								for(ClientType cy:ClientType.values()){
 									if(subclient.containsKey(cy)){
@@ -135,7 +137,7 @@ public class Client
 								}
 							}
 						}
-						catch(Exception e){Client.removeUnConnect();return;}
+						catch(Exception e){remove();Client.removeUnConnect();return;}
 					}
 				}
 			}).start();
