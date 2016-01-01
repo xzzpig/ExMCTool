@@ -3,7 +3,7 @@ import com.github.xzzpig.BukkitTools.*;
 import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
-
+import org.bukkit.*;
 import org.bukkit.event.*;
 
 public class AlwaysDataListener implements Listener
@@ -50,8 +50,28 @@ public class AlwaysDataListener implements Listener
 		}
 		TConfig.saveConfig("ExMCTool","login.yml","login.password."+client.getName(),client.password);
 	}
-
 	
+	@EventHandler
+	public void onInfo(DataReachEvent event){
+		String[] data = event.getStringData().split(" ");
+		if(!data[0].equalsIgnoreCase("serverinfo"))
+			return;
+		StringBuffer info = new StringBuffer();
+		info.
+			append("serverinfo ").
+			append(Bukkit.getServerName()).append(":").
+			append(Bukkit.getPort()).append(" ").
+			append(Bukkit.getOnlinePlayers().length).append("/").
+			append(Bukkit.getMaxPlayers());
+		event.getClient().sendData(info.toString().getBytes());
+	}
+	
+	@EventHandler
+	public void onFresh(DataReachEvent event){
+		if(!event.getStringData().equalsIgnoreCase("fresh"))
+			return;
+		event.getClient().sendData("fresh".getBytes());
+	}
 	
 	
 }

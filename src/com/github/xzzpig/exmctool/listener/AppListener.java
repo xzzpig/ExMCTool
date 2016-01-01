@@ -3,6 +3,7 @@ import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.event.*;
 
 import org.bukkit.event.*;
+import org.bukkit.*;
 
 public class AppListener implements Listener
 {
@@ -25,4 +26,6 @@ public class AppListener implements Listener
 		System.out.println("[ExMCTool]"+event.getPlayerClient().getName()+"通过App登录登录了服务器");
 		event.getPlayerClient().sendData("login pass".getBytes());
 	}
+	
+	
 }

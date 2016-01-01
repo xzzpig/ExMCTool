@@ -1,9 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con"
-		path="org.eclipse.jdt.launching.JRE_CONTAINER" />
-	<classpathentry kind="src" path="src" />
-	<classpathentry kind="con"
-		path="org.eclipse.jdt.USER_LIBRARY/bukkit" />
-	<classpathentry kind="output" path="bin" />
+<?xml version="1.0" encoding="UTF-8"?><classpath>
+<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+<classpathentry kind="src" path="src"/>
+<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/bukkit"/>
+<classpathentry kind="output" path="bin"/>
+<classpathentry kind="lib" path="/storage/sdcard0/AppProjects/craftbukkit-1.7.9-R0.2-20140527.004937-6.jar"/>
 </classpath>
