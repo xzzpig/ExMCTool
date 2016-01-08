@@ -3,3 +3,11 @@ main: com.github.xzzpig.exmctool.Main
 version: 0.1
 author: Mg_P
 load: STARTUP
+commands: 
+  exmctool:
+    description: 幻猪的ExMCTool插件的命令帮助
+    usage: §6[ExMCTool]§2查看ExMCTool插件帮助:/ex help
+    aliases: [ex,et]
+  exmessage:
+    description: 使玩家客户端弹出消息框
+    useage: /exmessage [消息] <玩家>

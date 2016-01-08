@@ -1,8 +1,11 @@
 package com.github.xzzpig.exmctool;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.xzzpig.BukkitTools.logutil.*;
+import com.github.xzzpig.exmctool.command.Commands;
 import com.github.xzzpig.exmctool.listener.*;
 
 public class Main extends JavaPlugin
@@ -41,4 +44,9 @@ public class Main extends JavaPlugin
 		}
 	}
 	
+	@Override
+	public boolean onCommand(CommandSender sender, Command command,String label, String[] args) {
+		// TODO Auto-generated method stub
+		return Commands.onCommand(sender, command, label, args);
+	}
 }
