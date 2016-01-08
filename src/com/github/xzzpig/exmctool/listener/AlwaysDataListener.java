@@ -1,8 +1,11 @@
 package com.github.xzzpig.exmctool.listener;
+import java.io.IOException;
+
 import com.github.xzzpig.BukkitTools.*;
 import com.github.xzzpig.exmctool.*;
 import com.github.xzzpig.exmctool.clients.*;
 import com.github.xzzpig.exmctool.event.*;
+
 import org.bukkit.*;
 import org.bukkit.event.*;
 
@@ -51,6 +54,7 @@ public class AlwaysDataListener implements Listener
 		TConfig.saveConfig("ExMCTool","login.yml","login.password."+client.getName(),client.password);
 	}
 	
+	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onInfo(DataReachEvent event){
 		String[] data = event.getStringData().split(" ");
@@ -59,7 +63,7 @@ public class AlwaysDataListener implements Listener
 		StringBuffer info = new StringBuffer();
 		info.
 			append("serverinfo ").
-			append(Bukkit.getServerName()).append(":").
+			append(Bukkit.getServerName().replace(' ', '_')).append(":").
 			append(Bukkit.getPort()).append(" ").
 			append(Bukkit.getOnlinePlayers().length).append("/").
 			append(Bukkit.getMaxPlayers());
@@ -70,7 +74,11 @@ public class AlwaysDataListener implements Listener
 	public void onFresh(DataReachEvent event){
 		if(!event.getStringData().equalsIgnoreCase("fresh"))
 			return;
-		event.getClient().sendData("fresh".getBytes());
+		try {
+			event.getClient().getSocket().getOutputStream().write("fresh".getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	

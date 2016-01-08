@@ -1,5 +1,6 @@
 package com.github.xzzpig.exmctool.listener;
 
+import com.github.xzzpig.exmctool.Debuger;
 import com.github.xzzpig.exmctool.event.*;
 
 import java.io.*;
@@ -52,6 +53,7 @@ public class ChatListener implements Listener
 		String[] data = event.getStringData().split(" ");
 		if(!data[0].equalsIgnoreCase("getchat"))
 			return;
+		
 		Date ddate=new Date();
 		DateFormat format=new SimpleDateFormat("yyyy_MM_dd");
 		int amount = -1;
@@ -66,7 +68,9 @@ public class ChatListener implements Listener
 		try{
 			FileInputStream fin = new FileInputStream(logfile);
 			Scanner scanner = new Scanner(fin);
+			int i = 0;
 			while(scanner.hasNextLine()){
+				i = i + 1;
 				String message = scanner.nextLine();
 				if(amount == -1)
 					client.sendData(message.getBytes());
@@ -78,6 +82,10 @@ public class ChatListener implements Listener
 				for(String message:chatlogs)
 					client.sendData(message.getBytes());
 			scanner.close();fin.close();
+			Debuger.print(i);
+			if (i==0) {
+				client.sendData("chat <Player>null<Player/><Message>null<Message/><Time>null<Time/>".getBytes("utf-8"));
+			}
 		}
 		catch(Exception e){}
 	}
@@ -99,7 +107,7 @@ public class ChatListener implements Listener
 		dir.mkdirs();
 		try{
 			FileOutputStream fout = new  FileOutputStream(outfile,true);
-			fout.write(("\n"+message).getBytes());
+			fout.write(("\n"+message).getBytes("utf-8"));
 			fout.close();
 		}
 		catch(Exception e){

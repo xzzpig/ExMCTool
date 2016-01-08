@@ -147,10 +147,13 @@ public class Client
 		System.out.println("[ExMCTool]客户端"+getPossibleName()+"已移除");
 		clients.remove(this);
 		read = false;
-		for(Client cli:subclient.keySet().toArray(new Client[0])){
-			clients.remove(cli);
-			cli.read = false;
-		}
+		try {
+			for(Client cli:subclient.keySet().toArray(new Client[0])){
+				clients.remove(cli);
+				cli.read = false;
+			}
+		} catch (Exception e) {}
+		
 	}
 
 	public static void removeUnConnect(){

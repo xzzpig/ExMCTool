@@ -10,7 +10,7 @@ public class DataReachEvent extends Event
 	private static final HandlerList handlers = new HandlerList();
 	
 	private Client client;
-	private byte[] data;
+	public byte[] data;
 	
 	public DataReachEvent(Client c,byte[] data) {
 		this.client = c;
