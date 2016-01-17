@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical">
+
+	<LinearLayout
+		android:layout_height="wrap_content"
+		android:layout_width="wrap_content"
+		android:orientation="vertical">
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="服务器信息:"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_width="wrap_content"
+			android:textIsSelectable="false"
+			android:textSize="28sp"/>
+
+		<TextView
+			android:layout_height="wrap_content"
+			android:text="无"
+			android:layout_width="wrap_content"
+			android:textSize="20sp"
+			android:id="@+id/TextView_serverinfo"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_height="match_parent"
+		android:layout_width="match_parent"
+		android:orientation="horizontal">
+
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:orientation="horizontal">
+
+			<Button
+				android:layout_height="wrap_content"
+				android:text="玩家信息"
+				android:layout_width="100dp"
+				android:layout_weight="1.0"
+				android:layout_marginRight="50dp"
+				android:id="@+id/Button_player"/>
+
+			<Button
+				android:layout_height="wrap_content"
+				android:text="聊天"
+				android:layout_width="100dp"
+				android:layout_weight="1.0"
+				android:layout_marginLeft="50dp"
+				android:id="@+id/Button_chat"
+				android:onClick="onChatClick"/>
+
+		</LinearLayout>
+
+	</LinearLayout>
+
+</LinearLayout>
+

@@ -8,6 +8,8 @@ import java.util.*;
 import com.github.xzzpig.utils.*;
 import android.widget.*;
 import android.view.View.*;
+import com.github.xzzpig.exmctool.event.*;
+import com.github.xzzpig.exmctool.listener.*;
 
 public class MainActivity extends Activity
 {
@@ -51,6 +53,17 @@ public class MainActivity extends Activity
 			((TextView)this.findViewById(R.id.EditText_psw)).setText(data.getString("password",""));
 			spinner.setSelection((data.getInt("address",0)));
 		}
+		
+		((Button)findViewById(R.id.Button_login)).setOnLongClickListener(new OnLongClickListener(){
+				@Override
+				public boolean onLongClick(View p1){
+					Intent intent = new Intent();
+					intent.setClass(MainActivity.this,ChoiceActivity.class);
+					startActivity(intent);
+					return true;
+				}
+			});
+		Event.registListener(new DataListener());
     }
 	
 	public void onASButtonClick(View view){
@@ -98,6 +111,12 @@ public class MainActivity extends Activity
 					String result = client.result;
 					if(!outdata.isAlive())
 						result = "登录超时";
+					if(result.equalsIgnoreCase("成功")){
+						Intent intent = new Intent();
+						intent.setClass(MainActivity.this,ChoiceActivity.class);
+						startActivity(intent);
+						return;
+					}
 					Toast.makeText(MainActivity.this,result,0).show();
 				}
 			});

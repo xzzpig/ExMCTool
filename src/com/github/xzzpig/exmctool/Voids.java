@@ -5,13 +5,6 @@ import android.content.*;
 
 public class Voids
 {
-	private static void buildView(int view){
-		switch(view){
-			case R.layout.main:
-				break;
-		}
-	}
-
 	public static void printToast(Context c,String message){
 		try{Looper.prepare();
 			Toast.makeText(c,message,Toast.LENGTH_LONG).show();
@@ -20,6 +13,12 @@ public class Voids
 		catch(Exception e){
 			Toast.makeText(c,message,Toast.LENGTH_LONG).show();
 		}
-
+	}
+	
+	public static String sub(String s,String pre,String suf)
+	{
+		int f = s.indexOf(pre);
+		int e = s.indexOf(suf,f);
+		return s.substring(f+pre.length(),e);
 	}
 }

@@ -1,7 +1,7 @@
 package com.github.xzzpig.exmctool;
 import android.os.*;
 import com.github.xzzpig.exmctool.event.*;
-import com.github.xzzpig.exmctool.extevent.*;
+import com.github.xzzpig.exmctool.cusevent.*;
 import com.github.xzzpig.utils.*;
 import java.io.*;
 import java.net.*;
@@ -79,11 +79,10 @@ public class Client extends Thread
 //			askPerpare();
 //			socket.getOutputStream().write(("canlogin").getBytes());
 			String ret="";
-			while((!ret.contains("login deny")&&(!ret.contains("login pass")))){
+			while((!ret.contains("login deny")&&(!ret.contains("login success")))){
 				ret = new String(read());
-				System.out.println("ret:"+ret);
 			}
-			if(ret.contains("login pass")){
+			if(ret.contains("login success")){
 				result = "成功";
 				readdata();
 				dialogCancel();
@@ -114,12 +113,11 @@ public class Client extends Thread
 				@Override
 				public void run(){
 					while(read){
-						System.out.println("new loop");
 						if(socket.isClosed()){
 							System.out.println("服务端已关闭");
 							return;
 						}
-						byte[] buf = new byte[1024*1024];
+						byte[] buf = new byte[1024*128];
 						int length = 0;
 						try{
 							length = socket.getInputStream().read(buf);
@@ -127,12 +125,15 @@ public class Client extends Thread
 						catch(IOException e){System.out.println("接受数据错误"+e);}
 						try{
 							data = Arrays.copyOf(buf,length);
-							Looper.prepare();
+							//Looper.prepare();
 							System.out.println("数据到达:");
 							System.out.println(Arrays.toString(data));
-							System.out.println(new String(data));
-							Event.callEvent(new DataReachEvent(self,data));
-							Looper.loop();
+							for(String d:new String(data).split(new String(new byte[]{1,1,1,1}))){
+								System.out.println(d);
+								Event.callEvent(new DataReachEvent(d.getBytes()));
+							}
+							
+							//Looper.loop();
 							if(ask)ask=false;
 						}
 						catch(Exception e){System.out.println("接受数据错误"+e);return;}
@@ -153,5 +154,13 @@ public class Client extends Thread
 			return data;
 		}catch(Exception e){}
 		return null;
+	}
+	
+	public void sendData(byte[] data){
+		try{
+			socket.getOutputStream().write(data);
+			socket.getOutputStream().write("###".getBytes());
+		}
+		catch(Exception e){}
 	}
 }

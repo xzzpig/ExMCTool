@@ -18,7 +18,6 @@ public class ObjectFile
 			out.close();
 			fout.flush();
 			fout.close();
-			System.out.println(name+"文件已保存");
 		}
 		catch(Exception e){System.out.println(e);}
 	}
@@ -38,5 +37,18 @@ public class ObjectFile
 		}
 		catch(Exception e){}
 		return null;
+	}
+	
+	public static Object load(byte[] data){
+		try{
+			ByteArrayInputStream bin = new ByteArrayInputStream(data);
+			ObjectInputStream in = new ObjectInputStream(bin);
+			Object object = in.readObject();
+			in.close();
+			bin.close();
+			return object;
+		}
+		catch(Exception e){}
+		return data;
 	}
 }

@@ -16,8 +16,7 @@ public class MD5
     // ������ʽΪ���ָ��ַ�
     private static String byteToArrayString(byte bByte){
         int iRet = bByte;
-        // System.out.println("iRet="+iRet);
-        if(iRet<0){
+		if(iRet<0){
             iRet += 256;
         }
         int iD1 = iRet/16;

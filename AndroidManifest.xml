@@ -28,6 +28,14 @@
             android:label="@string/app_name"
             android:name=".AddServerActivity" >
         </activity>
+		<activity
+            android:label="@string/app_name"
+            android:name=".ChoiceActivity" >
+        </activity>
+		<activity
+            android:label="@string/app_name"
+            android:name=".ChatActivity" >
+        </activity>
     </application>
 
 </manifest>

@@ -10,12 +10,13 @@ public class Event
 	public static final void registListener(Listener listener){
 		for(Method meth: listener.getClass().getMethods()){
 			for(Annotation ann:meth.getAnnotations()){
-				if(ann.toString().equalsIgnoreCase("@EventHandler()")){
+				if(ann.toString().contains("EventHandler()")){
 					try{
 						Type type = meth.getGenericParameterTypes()[0];
 						if(!events.containsKey(type))
 							events.put(type,new ArrayList<EventMethod>());
 						events.get(type).add(new EventMethod(meth,listener));
+						System.out.println(type+"|"+meth.getName());
 					}
 					catch(Exception e){}
 				}
@@ -28,9 +29,10 @@ public class Event
 		if(!events.containsKey(eventtype))return;
 		for(EventMethod em:events.get(eventtype)){
 			try{
+				System.out.println(em.method.getName());
 				em.method.invoke(em.listener,new Object[]{event});
 			}
-			catch(Exception e){}
+			catch(Exception e){System.out.println("触发事件错误"+e);}
 		}
 	}
 }
